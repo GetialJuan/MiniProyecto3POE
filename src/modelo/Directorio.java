@@ -4,10 +4,16 @@
  */
 package modelo;
 
+import java.util.Vector;
+
 /**
  *
  * @author invitado
  */
 public class Directorio {
-    
+    private Vector<Contacto> directorio;
+
+    public Directorio() {
+        directorio = new Vector();
+    }
 }

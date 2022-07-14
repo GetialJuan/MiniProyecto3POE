@@ -8,7 +8,7 @@ package directoriotelefonico;
  *
  * @author invitado
  */
-public class DirectorioTelefonico {
+public class Principal {
 
     /**
      * @param args the command line arguments

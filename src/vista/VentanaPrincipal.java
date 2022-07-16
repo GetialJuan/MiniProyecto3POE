@@ -7,6 +7,7 @@ package vista;
 import java.awt.Container;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,6 +41,11 @@ public class VentanaPrincipal extends JFrame{
     private JLabel lblDirecciones;
     private JLabel lblTelefonos;
     private JLabel lblID;
+    
+    //jButons
+    private JButton btnAgregarDireccion;
+    private JButton btnAgregarTelefono;
+    private JButton btnAgregarContacto;
     
     //contenedorPrincipal
     private Container contPrincipal;
@@ -102,6 +108,16 @@ public class VentanaPrincipal extends JFrame{
         listTxtNumero.add(numero);
         listTxtNumero.add(tipoNumero);
         
+        //btns
+        btnAgregarDireccion = new JButton("+");
+        btnAgregarDireccion.setBounds(490, 150, 50, 25);
+        
+        btnAgregarTelefono = new JButton("+");
+        btnAgregarTelefono.setBounds(330, 190, 50, 25);
+        
+        btnAgregarContacto = new JButton("Agregar Contacto");
+        btnAgregarContacto.setBounds(430, 230, 140, 30);
+        
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
@@ -116,6 +132,9 @@ public class VentanaPrincipal extends JFrame{
         for(JTextField txt : listTxtNumero){
             contPrincipal.add(txt);
         }
+        contPrincipal.add(btnAgregarContacto);
+        contPrincipal.add(btnAgregarDireccion);
+        contPrincipal.add(btnAgregarTelefono);
     }
     
 }

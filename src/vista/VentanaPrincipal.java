@@ -22,8 +22,14 @@ public class VentanaPrincipal extends JFrame{
     //Jtextfields
     private JTextField txtNombres;
     private JTextField txtApellidos;
-    private JTextField txtDirecciones;
-    private JTextField txtTelefonos;
+    
+    private JTextField txtDireccion;
+    private JTextField txtBarrio;
+    private JTextField txtCiudad;
+    
+    private JTextField txtTelefono;
+    private JTextField txtTipo;
+    
     private JTextField txtID;
     
     //JLabels
@@ -37,7 +43,7 @@ public class VentanaPrincipal extends JFrame{
     private Container contPrincipal;
     
     public VentanaPrincipal(){
-        setSize(500, 500);
+        setSize(600, 600);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,9 +58,23 @@ public class VentanaPrincipal extends JFrame{
         directorio = new Directorio(new File(rutaAbsoluta.
                 concat("\\src\\directoriotelefonico\\contactos.txt")));
         
+        //jtextfields
+        txtNombres = new JTextField("Ingrese los nombres");
+        txtNombres.setBounds(430, 10, 150, 20);
+        
+        txtApellidos = new JTextField("Ingrese los apellidos");
+        txtApellidos.setBounds(430, 50, 150, 20);
+        
+        txtID = new JTextField("Ingrese el iD");
+        txtID.setBounds(430, 80, 150, 20);
+        
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
+        
+        contPrincipal.add(txtNombres);
+        contPrincipal.add(txtApellidos);
+        contPrincipal.add(txtID);
     }
     
 }

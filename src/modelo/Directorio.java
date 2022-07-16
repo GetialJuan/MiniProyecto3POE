@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,19 +19,17 @@ import java.util.Map;
  */
 public class Directorio {
     private ArrayList<Contacto> directorio;
-    private PrintWriter pwDirectorio;
+    private FileWriter fwDirectorio;
+    private File flDirectorio;
 
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();
+        flDirectorio = txtDirectorio;
         try {
-            pwDirectorio = new PrintWriter(new FileWriter(txtDirectorio,true));
+            fwDirectorio = new FileWriter(flDirectorio,true);
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Se ecribe la primera linea en el archivo
-        pwDirectorio.println("id,nombres,apellidos,fechaDeNacimiento,estamento,"
-                + "telefonos,direcciones");
-        
     }
     
     public void agregarContacto(String fechaDeNacimiento, String iD, 
@@ -44,8 +44,12 @@ public class Directorio {
         directorio.add(nuevoContacto);
         
         //Se añaden  los datos al txt
+        
+        PrintWriter pwDirectorio = new PrintWriter(fwDirectorio);
+        pwDirectorio.println();
         pwDirectorio.print(iD+","+nombres+","+apellidos+","+fechaDeNacimiento
                 +","+estamento+",");
+        System.out.println(pwDirectorio);
         for(Map<String,String> e : telefonos){
             pwDirectorio.print(e);
         }
@@ -53,8 +57,20 @@ public class Directorio {
         for(Map<String,String> e : direcciones){
             pwDirectorio.print(e);
         }
-        pwDirectorio.println();
+        resetearFileWriter();
     }
     
+    private void resetearFileWriter(){
+        try {
+            if(fwDirectorio != null){
+                fwDirectorio.close();
+            }
+            fwDirectorio = new FileWriter(flDirectorio,true);
+            System.out.println("se reseto el fw");
+        } catch (IOException ex) {
+            Logger.getLogger(Directorio.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

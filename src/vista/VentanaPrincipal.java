@@ -5,12 +5,17 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Directorio;
 
@@ -22,6 +27,10 @@ public class VentanaPrincipal extends JFrame{
     private String rutaAbsoluta;
     private Directorio directorio;
     
+    //objetosAuxiliares
+    private ArrayList<Map<String,String>> listAuxDir;
+    private ArrayList<Map<String,String>> listAuxTel;
+    
     //Jtextfields
     private JTextField txtNombres;
     private JTextField txtApellidos;
@@ -29,6 +38,8 @@ public class VentanaPrincipal extends JFrame{
     private ArrayList<JTextField> listTxtDireccion;
     
     private ArrayList<JTextField> listTxtNumero;
+    
+    private ArrayList<JTextField> listTxtFechaDeNacimiento;
     
     private JTextField txtID;
     
@@ -66,6 +77,10 @@ public class VentanaPrincipal extends JFrame{
         rutaAbsoluta = new File("").getAbsolutePath();
         directorio = new Directorio(new File(rutaAbsoluta.
                 concat("\\src\\directoriotelefonico\\contactos.txt")));
+        
+        //obejtos aux
+        listAuxDir = new ArrayList<>();
+        listAuxTel = new ArrayList<>();
         
         //jtextfields
         txtNombres = new JTextField("Ingrese los nombres");
@@ -108,6 +123,21 @@ public class VentanaPrincipal extends JFrame{
         listTxtNumero.add(numero);
         listTxtNumero.add(tipoNumero);
         
+        //FechaDeNacimiento(lista)
+        JTextField dia = new JTextField("dia");
+        dia.setBounds(10, 230, 150, 25);
+        
+        JTextField mes = new JTextField("mes");
+        mes.setBounds(170, 230, 150, 25);
+        
+        JTextField año = new JTextField("año");
+        año.setBounds(330, 230, 150, 25);
+        
+        listTxtFechaDeNacimiento = new ArrayList<>();
+        listTxtFechaDeNacimiento.add(dia);
+        listTxtFechaDeNacimiento.add(mes);
+        listTxtFechaDeNacimiento.add(año);
+        
         //btns
         btnAgregarDireccion = new JButton("+");
         btnAgregarDireccion.setBounds(490, 150, 50, 25);
@@ -116,7 +146,7 @@ public class VentanaPrincipal extends JFrame{
         btnAgregarTelefono.setBounds(330, 190, 50, 25);
         
         btnAgregarContacto = new JButton("Agregar Contacto");
-        btnAgregarContacto.setBounds(430, 230, 140, 30);
+        btnAgregarContacto.setBounds(430, 270, 140, 30);
         
         //contPrincipal
         contPrincipal = getContentPane();
@@ -132,9 +162,63 @@ public class VentanaPrincipal extends JFrame{
         for(JTextField txt : listTxtNumero){
             contPrincipal.add(txt);
         }
+        for(JTextField txt : listTxtFechaDeNacimiento){
+            contPrincipal.add(txt);
+        }
         contPrincipal.add(btnAgregarContacto);
         contPrincipal.add(btnAgregarDireccion);
         contPrincipal.add(btnAgregarTelefono);
+        
+        //listeners
+        btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
+        btnAgregarDireccion.addMouseListener(new ManejadorDeEventos());
+        btnAgregarTelefono.addMouseListener(new ManejadorDeEventos());
+        
     }
     
+    private class ManejadorDeEventos extends MouseAdapter{
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if(e.getSource() == btnAgregarContacto){
+                String fechaDeNacimiento = "";
+                for(int i = 0; i<3; i++){
+                    fechaDeNacimiento += listTxtFechaDeNacimiento.get(i).getText();
+                    if(i<2){
+                        fechaDeNacimiento += "/";
+                    }
+                }
+                directorio.agregarContacto(fechaDeNacimiento, txtID.getText(), 
+                        txtNombres.getText(), txtApellidos.getText(), 
+                        ""+cbEstamento.getSelectedItem(), listAuxDir, 
+                        listAuxTel);
+                
+                listAuxDir.clear();
+                listAuxTel.clear();
+                
+                JOptionPane.showMessageDialog(null, "Se agrego el contacto");
+            }
+            else if(e.getSource() == btnAgregarDireccion){
+                String[] claves = {"direccion", "barrio", "ciudad"};
+                Map<String,String> direccionAux = new HashMap<>();
+                for(int i = 0; i<3; i++){
+                    direccionAux.put(claves[i], listTxtDireccion.get(i).
+                            getText());
+                }
+                
+                listAuxDir.add(direccionAux);
+            }
+            else if(e.getSource() == btnAgregarTelefono){
+                String[] claves = {"numero", "tipo"};
+                Map<String,String> telAux = new HashMap<>();
+                for(int i = 0; i<2; i++){
+                    telAux.put(claves[i], listTxtNumero.get(i).
+                            getText());
+                }
+                
+                listAuxDir.add(telAux);
+            }
+        }
+        
+    }
 }

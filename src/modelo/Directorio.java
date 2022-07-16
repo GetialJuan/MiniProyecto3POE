@@ -49,7 +49,6 @@ public class Directorio {
         pwDirectorio.println();
         pwDirectorio.print(iD+","+nombres+","+apellidos+","+fechaDeNacimiento
                 +","+estamento+",");
-        System.out.println(pwDirectorio);
         for(Map<String,String> e : telefonos){
             pwDirectorio.print(e);
         }

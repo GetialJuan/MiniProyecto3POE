@@ -38,10 +38,14 @@ public class VentanaPrincipal extends JFrame{
     private ArrayList<JTextField> listTxtDireccion;
     
     private ArrayList<JTextField> listTxtNumero;
+    private JTextField txtNumero;
     
     private ArrayList<JTextField> listTxtFechaDeNacimiento;
     
     private JTextField txtID;
+    
+    //JcomboBox
+    private JComboBox<String> cbTipoNumero;
     
     //JCOmboBox(estamento)
     private JComboBox<String> cbEstamento;
@@ -113,15 +117,12 @@ public class VentanaPrincipal extends JFrame{
         listTxtDireccion.add(ciudad);
         
         //telefono(lista)
-        JTextField numero = new JTextField("numero");
-        numero.setBounds(10, 190, 150, 25);
+        txtNumero = new JTextField("numero");
+        txtNumero.setBounds(10, 190, 150, 25);
         
-        JTextField tipoNumero = new JTextField("tipo");
-        tipoNumero.setBounds(170, 190, 150, 25);
-        
-        listTxtNumero = new ArrayList<>();
-        listTxtNumero.add(numero);
-        listTxtNumero.add(tipoNumero);
+        String[] tiposDeNumero = {"movil", "casa", "oficina"};
+        cbTipoNumero = new JComboBox<>(tiposDeNumero);
+        cbTipoNumero.setBounds(170, 190, 150, 25);
         
         //FechaDeNacimiento(lista)
         JTextField dia = new JTextField("dia");
@@ -156,10 +157,9 @@ public class VentanaPrincipal extends JFrame{
         contPrincipal.add(txtApellidos);
         contPrincipal.add(txtID);
         contPrincipal.add(cbEstamento);
+        contPrincipal.add(txtNumero);
+        contPrincipal.add(cbTipoNumero);
         for(JTextField txt : listTxtDireccion){
-            contPrincipal.add(txt);
-        }
-        for(JTextField txt : listTxtNumero){
             contPrincipal.add(txt);
         }
         for(JTextField txt : listTxtFechaDeNacimiento){
@@ -209,14 +209,12 @@ public class VentanaPrincipal extends JFrame{
                 listAuxDir.add(direccionAux);
             }
             else if(e.getSource() == btnAgregarTelefono){
-                String[] claves = {"numero", "tipo"};
                 Map<String,String> telAux = new HashMap<>();
-                for(int i = 0; i<2; i++){
-                    telAux.put(claves[i], listTxtNumero.get(i).
-                            getText());
-                }
                 
-                listAuxDir.add(telAux);
+                telAux.put("numero", txtNumero.getText());
+                telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
+                
+                listAuxTel.add(telAux);
             }
         }
         

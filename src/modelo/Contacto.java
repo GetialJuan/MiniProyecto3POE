@@ -4,9 +4,8 @@
  */
 package modelo;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  *
@@ -19,13 +18,13 @@ public class Contacto {
     private String nombres;
     private String apellidos;
     private String estamento;
-    private Vector<Map<String, String>> direcciones;
-    private Vector<Map<String, String>> telefonos;
+    private ArrayList<Map<String, String>> direcciones;
+    private ArrayList<Map<String, String>> telefonos;
     
     public Contacto(String fechaDeNacimiento, String iD, String nombres, 
             String apellidos, String estamento, 
-            Vector<Map<String, String>> direcciones, 
-            Vector<Map<String, String>> telefonos) {
+            ArrayList<Map<String, String>> direcciones, 
+            ArrayList<Map<String, String>> telefonos) {
         this.fechaDeNacimiento = fechaDeNacimiento;
         this.iD = iD;
         this.nombres = nombres;
@@ -34,7 +33,8 @@ public class Contacto {
         this.direcciones = direcciones;
         this.telefonos = telefonos;
     }
-    
+    //estos metodos pueden ser utiles en el futuro
+    /*
     public void agregarDireccion(String direccion,String barrio,String ciudad){
         Map<String,String> dir = new HashMap();
         dir.put("direccion", direccion);
@@ -43,8 +43,8 @@ public class Contacto {
         
         direcciones.add(dir);
     }
-    //estos metodos pueden ser utiles en el futuro
-    /*
+    
+    
     public void agregarTelefono(String numero, String tipo){
         Map<String,String> telefono = new HashMap();
         telefono.put("numero", numero);

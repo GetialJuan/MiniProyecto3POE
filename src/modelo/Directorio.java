@@ -10,18 +10,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  *
  * @author invitado
  */
 public class Directorio {
-    private Vector<Contacto> directorio;
+    private ArrayList<Contacto> directorio;
     private PrintWriter pwDirectorio;
 
     public Directorio(File txtDirectorio) {
-        directorio = new Vector();
+        directorio = new ArrayList<>();
         try {
             pwDirectorio = new PrintWriter(new FileWriter(txtDirectorio,true));
         } catch (IOException ex) {
@@ -35,8 +34,8 @@ public class Directorio {
     
     public void agregarContacto(String fechaDeNacimiento, String iD, 
             String nombres, String apellidos, String estamento, 
-            Vector<Map<String,String>> direcciones, 
-            Vector<Map<String,String>> telefonos)
+            ArrayList<Map<String,String>> direcciones, 
+            ArrayList<Map<String,String>> telefonos)
     {
         
         Contacto nuevoContacto = new Contacto(fechaDeNacimiento, iD, nombres, 
@@ -44,11 +43,17 @@ public class Directorio {
         
         directorio.add(nuevoContacto);
         
+        //Se añaden  los datos al txt
         pwDirectorio.print(iD+","+nombres+","+apellidos+","+fechaDeNacimiento
                 +","+estamento+",");
         for(Map<String,String> e : telefonos){
             pwDirectorio.print(e);
         }
+        pwDirectorio.print(",");
+        for(Map<String,String> e : direcciones){
+            pwDirectorio.print(e);
+        }
+        pwDirectorio.println();
     }
     
     

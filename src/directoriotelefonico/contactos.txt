@@ -1,4 +1,1 @@
 iD,nombres,apellidos,fechaDeNacimiento,estamento,telefonos,direcciones
-1005945875,Juan Sebastian,Getial Getial,25/07/2003,empleado,{tipo=casa, numero=3014715234},{barrio=Ciudad Cordoba, ciudad=Cali, direccion=cll 55 #41 D 33}
-1005945875,Juan Sebastian,Getial Getial,25/07/2003,empleado,,
-1005945875,Juan Sebastian,Getial Getial,25/07/2003,empleado,{tipo=casa, numero=3014715234}{tipo=casa, numero=3014715234}{tipo=casa, numero=3014715234},

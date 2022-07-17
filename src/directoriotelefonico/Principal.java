@@ -4,7 +4,7 @@
  */
 package directoriotelefonico;
 
-import vista.VentanaPrincipal;
+import vista.VentanaAgregarContacto;
 
 /**
  *
@@ -16,7 +16,7 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
+        VentanaAgregarContacto ventanaPrincipal = new VentanaAgregarContacto();
     }
     
 }

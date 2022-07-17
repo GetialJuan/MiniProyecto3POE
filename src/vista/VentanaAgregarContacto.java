@@ -23,7 +23,7 @@ import modelo.Directorio;
  *
  * @author invitado
  */
-public class VentanaPrincipal extends JFrame{
+public class VentanaAgregarContacto extends JFrame{
     private String rutaAbsoluta;
     private Directorio directorio;
     
@@ -65,7 +65,7 @@ public class VentanaPrincipal extends JFrame{
     //contenedorPrincipal
     private Container contPrincipal;
     
-    public VentanaPrincipal(){
+    public VentanaAgregarContacto(){
         iniciarComponentes();
         setSize(600, 600);
         setVisible(true);

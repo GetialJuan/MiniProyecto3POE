@@ -155,6 +155,26 @@ public class Directorio {
         return dir;
     }
     
+    public void crearBackup(){
+        try {
+            File backup = new File(
+            new File("").getAbsolutePath().
+                    concat("\\src\\directoriotelefonico\\backup.dat"));
+            FileOutputStream fos = new FileOutputStream(backup,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
     /*
     private void resetearFileWriter(){
         try {

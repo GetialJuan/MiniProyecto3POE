@@ -78,7 +78,9 @@ public class VentanaConfiguracion extends JFrame{
                 
             }
             else if(e.getSource() == btnCrearBackup){
-                
+                directorio.crearBackup();
+                JOptionPane.showMessageDialog(null, "Se ha creado un nuevo "
+                        + "backup");
             }
             else if(e.getSource() == btnExportarInformacion){
                 directorio.exportarInformacion();

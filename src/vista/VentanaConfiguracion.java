@@ -5,6 +5,8 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import modelo.Directorio;
@@ -61,6 +63,28 @@ public class VentanaConfiguracion extends JFrame{
         contPrincipal.add(btnRestaurarInformacion);
         contPrincipal.add(btnBorrarInformacion);
         
-        
+        //lsiteners
+        btnBorrarInformacion.addMouseListener(new ManejadorDeEventos());
+        btnCrearBackup.addMouseListener(new ManejadorDeEventos());
+        btnExportarInformacion.addMouseListener(new ManejadorDeEventos());
+        btnRestaurarInformacion.addMouseListener(new ManejadorDeEventos());
+    }
+    
+    private class ManejadorDeEventos extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if(e.getSource() == btnBorrarInformacion){
+                
+            }
+            else if(e.getSource() == btnCrearBackup){
+                
+            }
+            else if(e.getSource() == btnExportarInformacion){
+                
+            }
+            else if(e.getSource() == btnRestaurarInformacion){
+                
+            }
+        }
     }
 }

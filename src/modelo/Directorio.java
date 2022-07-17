@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,7 +29,6 @@ import vista.VentanaDirectorio;
 
 public class Directorio {
     private final ArrayList<Contacto> directorio;
-    private FileWriter fwDirectorio;
     private final File flDirectorio;
 
     public Directorio(File txtDirectorio) {
@@ -67,21 +67,6 @@ public class Directorio {
         }catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
-        
-        //Se añaden  los datos al txt
-            /*
-            PrintWriter pwDirectorio = new PrintWriter(fwDirectorio);
-            pwDirectorio.println();
-            pwDirectorio.print(iD+","+nombres+","+apellidos+","+fechaDeNacimiento
-            +","+estamento+",");
-            for(Map<String,String> e : telefonos){
-            pwDirectorio.print(e);
-            }
-            pwDirectorio.print(",");
-            for(Map<String,String> e : direcciones){
-            pwDirectorio.print(e);
-            }
-            resetearFileWriter();*/
     }
     
     public void agregarContacto(Contacto contacto){
@@ -115,6 +100,42 @@ public class Directorio {
         }
     }
     
+    public void exportarInformacion(){
+        File dirTxt = new File(
+        new File("").getAbsolutePath().
+                concat("\\src\\directoriotelefonico\\contactos.txt"));
+        //Se añaden  los datos al txt
+        
+        try {
+            FileWriter fw = new FileWriter(dirTxt, false);
+            PrintWriter pw = new PrintWriter(fw);
+            
+            pw.println("iD,nombres,apellidos,fechaDeNacimiento,estamento,"
+                    + "telefonos,direcciones");
+            for(Contacto c : directorio){
+                String strTels = "";
+                String strDirs = "";
+                ArrayList<Map<String, String>> tels = c.getTelefonos();
+                for(Map<String, String> tel : tels){
+                    strTels += tel;
+                }
+                ArrayList<Map<String, String>> dirs = c.getDirecciones();
+                for(Map<String, String> dir : dirs){
+                    strDirs += dir;
+                }
+                
+                pw.println(c.getiD()+","+c.getNombres()+","+c.getApellidos()+","
+                +c.getFechaDeNacimiento()+c.getEstamento()+","+strTels+","
+                +strDirs);
+            }
+            
+            fw.close();
+            pw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /*
     private void resetearFileWriter(){
         try {

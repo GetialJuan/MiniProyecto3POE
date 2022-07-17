@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Directorio;
 
 /**
@@ -80,7 +81,9 @@ public class VentanaConfiguracion extends JFrame{
                 
             }
             else if(e.getSource() == btnExportarInformacion){
-                
+                directorio.exportarInformacion();
+                JOptionPane.showMessageDialog(null, "Se ha creado el archivo "
+                        + "contactos.txt");
             }
             else if(e.getSource() == btnRestaurarInformacion){
                 

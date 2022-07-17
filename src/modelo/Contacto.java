@@ -69,6 +69,18 @@ public class Contacto implements Serializable {
         return estamento;
     }
 
+    public String getFechaDeNacimiento() {
+        return fechaDeNacimiento;
+    }
+
+    public String getiD() {
+        return iD;
+    }
+
+    public ArrayList<Map<String, String>> getDirecciones() {
+        return direcciones;
+    }
+
     public ArrayList<Map<String, String>> getTelefonos() {
         return telefonos;
     }

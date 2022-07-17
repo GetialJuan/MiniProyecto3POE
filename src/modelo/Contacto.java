@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  *
  * @author invitado
  */
-public class Contacto {
+public class Contacto implements Serializable {
     
     private String fechaDeNacimiento;
     private String iD;
@@ -33,6 +34,9 @@ public class Contacto {
         this.direcciones = direcciones;
         this.telefonos = telefonos;
     }
+    
+    
+    
     //estos metodos pueden ser utiles en el futuro
     /*
     public void agregarDireccion(String direccion,String barrio,String ciudad){
@@ -52,4 +56,16 @@ public class Contacto {
         
         telefonos.add(telefono);
     }*/
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public ArrayList<Map<String, String>> getTelefonos() {
+        return telefonos;
+    }
 }

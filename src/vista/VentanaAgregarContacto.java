@@ -80,7 +80,7 @@ public class VentanaAgregarContacto extends JFrame{
     private void iniciarComponentes(){
         rutaAbsoluta = new File("").getAbsolutePath();
         directorio = new Directorio(new File(rutaAbsoluta.
-                concat("\\src\\directoriotelefonico\\contactos.txt")));
+                concat("\\src\\directoriotelefonico\\contactos.dat")));
         
         //obejtos aux
         listAuxDir = new ArrayList<>();

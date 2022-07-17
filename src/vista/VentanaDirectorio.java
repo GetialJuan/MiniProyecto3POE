@@ -7,7 +7,18 @@ package vista;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.TextArea;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,13 +27,14 @@ import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import modelo.Contacto;
+import modelo.Directorio;
 
 /**
  *
  * @author Juan
  */
 public class VentanaDirectorio extends JFrame{
-    private ArrayList<Contacto> directorio;
+    private Directorio directorio;
     
     //pnls (de botones)
     private JPanel pnlBotonesSuperiores;
@@ -57,6 +69,11 @@ public class VentanaDirectorio extends JFrame{
     
     private void iniciarComponentes(){
         
+        //Se estblece el directorio persistente
+        File fl = new File(new File("").getAbsolutePath().
+                concat("\\src\\directoriotelefonico\\contactos.dat"));
+        directorio = new Directorio(fl);
+        
         //btns
         btnProfesores = new JButton("Profesores");
         btnEstudiantes = new JButton("Estudiantes");
@@ -88,10 +105,10 @@ public class VentanaDirectorio extends JFrame{
         SimpleAttributeSet attribs = new SimpleAttributeSet();
         StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
         StyleConstants.setFontFamily(attribs, "Tahoma");
-        StyleConstants.setFontSize(attribs, 30);
+        StyleConstants.setFontSize(attribs, 18);
         tpDirectorio.setParagraphAttributes(attribs, true);
         
-        tpDirectorio.setText("Este juego pone \n hola");
+        tpDirectorio.setText(getDirectorioVisual());
         
         spDirectorio = new JScrollPane(tpDirectorio);
         spDirectorio.setBounds(5, 60, 475, 350);
@@ -102,5 +119,24 @@ public class VentanaDirectorio extends JFrame{
         contPrincipal.add(pnlBotonesSuperiores);
         contPrincipal.add(spDirectorio);
         contPrincipal.add(pnlBotonesInferiores);
+    }
+    
+    private String getDirectorioVisual(){
+        String dir = "";
+        
+        ArrayList<Contacto> contactos = directorio.getContactos();
+        
+        for(Contacto ctt : contactos){
+            dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
+            
+            ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+            
+            for(Map<String, String> tel : tels){
+                dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+            }
+            dir += "\n";
+        }
+        
+        return dir;
     }
 }

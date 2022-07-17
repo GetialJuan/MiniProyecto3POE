@@ -52,6 +52,8 @@ public class VentanaDirectorio extends JFrame{
     private JButton btnEditarContacto;
     private JButton btnConfiguracion;
     
+    private JButton btnActualizar;
+    
     //jtextpane(directorio visual)
     private JTextPane tpDirectorio;
     private JScrollPane spDirectorio;
@@ -61,7 +63,7 @@ public class VentanaDirectorio extends JFrame{
     
     public VentanaDirectorio(){
         iniciarComponentes();
-        setSize(500, 500);
+        setSize(520, 500);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,22 +84,26 @@ public class VentanaDirectorio extends JFrame{
         btnEstudiantes = new JButton("Estudiantes");
         btnEmpleados = new JButton("Empleados");
         btnTodos = new JButton("Todos");
+        btnActualizar = new JButton("Actualizar");
         
         btnAgregarContacto = new JButton("NuevoContacto");
         btnConfiguracion = new JButton("Configuracion");
         btnEditarContacto = new JButton("EditarContacto");
         
+        
+        
         //jpanels
-        pnlBotonesSuperiores = new JPanel(new GridLayout(1,4));
-        pnlBotonesSuperiores.setBounds(0, 0, 485, 50);
+        pnlBotonesSuperiores = new JPanel(new GridLayout(1,5));
+        pnlBotonesSuperiores.setBounds(0, 0, 505, 50);
         
         pnlBotonesSuperiores.add(btnProfesores);
         pnlBotonesSuperiores.add(btnEstudiantes);
         pnlBotonesSuperiores.add(btnEmpleados);
         pnlBotonesSuperiores.add(btnTodos);
+        pnlBotonesSuperiores.add(btnActualizar);
         
         pnlBotonesInferiores = new JPanel(new GridLayout(1,3));
-        pnlBotonesInferiores.setBounds(0, 410, 485, 50);
+        pnlBotonesInferiores.setBounds(0, 410, 505, 50);
         
         pnlBotonesInferiores.add(btnEditarContacto);
         pnlBotonesInferiores.add(btnAgregarContacto);
@@ -125,13 +131,13 @@ public class VentanaDirectorio extends JFrame{
         
         //listeners
         btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
+        btnActualizar.addMouseListener(new ManejadorDeEventos());
     }
     
     private String getDirectorioVisual(){
         String dir = "";
         
         ArrayList<Contacto> contactos = directorio.getContactos();
-        
         for(Contacto ctt : contactos){
             dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
             
@@ -142,7 +148,6 @@ public class VentanaDirectorio extends JFrame{
             }
             dir += "\n";
         }
-        
         return dir;
     }
     
@@ -151,9 +156,12 @@ public class VentanaDirectorio extends JFrame{
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getSource() == btnAgregarContacto){
-                dispose();
                 VentanaAgregarContacto ventanaAgregarContacto = 
                         new VentanaAgregarContacto(directorio);
+            }
+            else if(e.getSource() == btnActualizar){
+                directorio.establecerDirectorioPersistente();
+                tpDirectorio.setText(getDirectorioVisual());
             }
         }
 

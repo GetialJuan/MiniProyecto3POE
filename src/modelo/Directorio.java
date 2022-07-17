@@ -89,7 +89,8 @@ public class Directorio {
         return directorio;
     }
     
-    private void establecerDirectorioPersistente(){
+    public void establecerDirectorioPersistente(){
+        this.directorio.clear();
         try {
             FileInputStream fis = new FileInputStream(flDirectorio);
             ObjectInputStream ois = null;

@@ -59,6 +59,7 @@ public class VentanaAgregarContacto extends JFrame{
     private JButton btnAgregarDireccion;
     private JButton btnAgregarTelefono;
     private JButton btnAgregarContacto;
+    private JButton btnVerDirectorio;
     
     //contenedorPrincipal
     private Container contPrincipal;
@@ -69,7 +70,7 @@ public class VentanaAgregarContacto extends JFrame{
         setSize(600, 600);
         setVisible(true);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Directorio");
         setResizable(false);
         
@@ -145,6 +146,9 @@ public class VentanaAgregarContacto extends JFrame{
         btnAgregarContacto = new JButton("Agregar Contacto");
         btnAgregarContacto.setBounds(430, 270, 140, 30);
         
+        btnVerDirectorio = new JButton("Ver Directorio");
+        btnVerDirectorio.setBounds(10, 270, 140, 30);
+        
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
@@ -164,11 +168,13 @@ public class VentanaAgregarContacto extends JFrame{
         contPrincipal.add(btnAgregarContacto);
         contPrincipal.add(btnAgregarDireccion);
         contPrincipal.add(btnAgregarTelefono);
+        contPrincipal.add(btnVerDirectorio);
         
         //listeners
         btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
         btnAgregarDireccion.addMouseListener(new ManejadorDeEventos());
         btnAgregarTelefono.addMouseListener(new ManejadorDeEventos());
+        btnVerDirectorio.addMouseListener(new ManejadorDeEventos());
         
     }
     
@@ -211,6 +217,9 @@ public class VentanaAgregarContacto extends JFrame{
                 telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
                 
                 listAuxTel.add(telAux);
+            }
+            else if(e.getSource() == btnVerDirectorio){
+                dispose();
             }
         }
         

@@ -7,6 +7,9 @@ package vista;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.TextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -119,6 +122,9 @@ public class VentanaDirectorio extends JFrame{
         contPrincipal.add(pnlBotonesSuperiores);
         contPrincipal.add(spDirectorio);
         contPrincipal.add(pnlBotonesInferiores);
+        
+        //listeners
+        btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
     }
     
     private String getDirectorioVisual(){
@@ -138,5 +144,18 @@ public class VentanaDirectorio extends JFrame{
         }
         
         return dir;
+    }
+    
+    private class ManejadorDeEventos extends MouseAdapter{
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if(e.getSource() == btnAgregarContacto){
+                dispose();
+                VentanaAgregarContacto ventanaAgregarContacto = 
+                        new VentanaAgregarContacto(directorio);
+            }
+        }
+
     }
 }

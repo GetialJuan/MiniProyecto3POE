@@ -7,7 +7,6 @@ package vista;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +23,6 @@ import modelo.Directorio;
  * @author invitado
  */
 public class VentanaAgregarContacto extends JFrame{
-    private String rutaAbsoluta;
     private Directorio directorio;
     
     //objetosAuxiliares
@@ -65,7 +63,8 @@ public class VentanaAgregarContacto extends JFrame{
     //contenedorPrincipal
     private Container contPrincipal;
     
-    public VentanaAgregarContacto(){
+    public VentanaAgregarContacto(Directorio directorio){
+        this.directorio = directorio;
         iniciarComponentes();
         setSize(600, 600);
         setVisible(true);
@@ -78,9 +77,6 @@ public class VentanaAgregarContacto extends JFrame{
     }
     
     private void iniciarComponentes(){
-        rutaAbsoluta = new File("").getAbsolutePath();
-        directorio = new Directorio(new File(rutaAbsoluta.
-                concat("\\src\\directoriotelefonico\\contactos.dat")));
         
         //obejtos aux
         listAuxDir = new ArrayList<>();

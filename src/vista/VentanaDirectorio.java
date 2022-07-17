@@ -1,27 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package vista;
 
 import java.awt.Container;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,9 +18,13 @@ import modelo.Contacto;
 import modelo.Directorio;
 
 /**
- *
- * @author Juan
+ * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaDirectorio.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
+
 public class VentanaDirectorio extends JFrame{
     private Directorio directorio;
     
@@ -89,8 +78,6 @@ public class VentanaDirectorio extends JFrame{
         btnAgregarContacto = new JButton("NuevoContacto");
         btnConfiguracion = new JButton("Configuracion");
         btnEditarContacto = new JButton("EditarContacto");
-        
-        
         
         //jpanels
         pnlBotonesSuperiores = new JPanel(new GridLayout(1,5));
@@ -180,6 +167,5 @@ public class VentanaDirectorio extends JFrame{
                 tpDirectorio.setText(getDirectorioVisual("todos"));
             }
         }
-
     }
 }

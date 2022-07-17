@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package vista;
 
 import java.awt.Container;
@@ -19,11 +15,15 @@ import javax.swing.JTextField;
 import modelo.Directorio;
 
 /**
- *
- * @author invitado
+ * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaAgregarContacto.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
+
 public class VentanaAgregarContacto extends JFrame{
-    private Directorio directorio;
+    private final Directorio directorio;
     
     //objetosAuxiliares
     private ArrayList<Map<String,String>> listAuxDir;
@@ -72,9 +72,7 @@ public class VentanaAgregarContacto extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Directorio");
-        setResizable(false);
-        
-        
+        setResizable(false);  
     }
     
     private void iniciarComponentes(){

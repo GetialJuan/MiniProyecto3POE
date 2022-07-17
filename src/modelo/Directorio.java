@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -20,13 +19,17 @@ import java.util.logging.Logger;
 import vista.VentanaDirectorio;
 
 /**
- *
- * @author invitado
+ * Laboratorio N.3: tercer miniproyecto. Archivo: Directorio.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
+
 public class Directorio {
-    private ArrayList<Contacto> directorio;
+    private final ArrayList<Contacto> directorio;
     private FileWriter fwDirectorio;
-    private File flDirectorio;
+    private final File flDirectorio;
 
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();

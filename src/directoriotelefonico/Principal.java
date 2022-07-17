@@ -1,23 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package directoriotelefonico;
 
 import vista.VentanaDirectorio;
 
-
 /**
- *
- * @author invitado
+ * Laboratorio N.3: tercer miniproyecto. Archivo: Principal.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 16-07-2022, Fecha última modificación: 16-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
-public class Principal {
 
-    /**
-     * @param args the command line arguments
-     */
+public class Principal {
     public static void main(String[] args) {
         VentanaDirectorio ventanaDirectorio = new VentanaDirectorio();
     }
-    
 }

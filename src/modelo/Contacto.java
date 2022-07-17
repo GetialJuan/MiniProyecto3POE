@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
 import java.io.Serializable;
@@ -9,9 +5,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- *
- * @author invitado
+ * Laboratorio N.3: tercer miniproyecto. Archivo: Contacto.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
+
 public class Contacto implements Serializable {
     
     private String fechaDeNacimiento;

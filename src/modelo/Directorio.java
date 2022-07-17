@@ -125,7 +125,7 @@ public class Directorio {
                 }
                 
                 pw.println(c.getiD()+","+c.getNombres()+","+c.getApellidos()+","
-                +c.getFechaDeNacimiento()+c.getEstamento()+","+strTels+","
+                +c.getFechaDeNacimiento()+","+c.getEstamento()+","+strTels+","
                 +strDirs);
             }
             
@@ -136,6 +136,25 @@ public class Directorio {
             Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String getDirectorioVisual(String estamento){
+        String dir = "";
+        for(Contacto ctt : directorio){
+            if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
+                dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
+            
+                ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+
+                for(Map<String, String> tel : tels){
+                    dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                }
+                dir += "\n";
+            }
+            
+        }
+        return dir;
+    }
+    
     /*
     private void resetearFileWriter(){
         try {

@@ -26,8 +26,8 @@ public class VentanaConfiguracion extends JFrame{
     //contendeor principal
     private Container contPrincipal;
     
-    public VentanaConfiguracion(){
-        //this.directorio = directorio;
+    public VentanaConfiguracion(Directorio directorio){
+        this.directorio = directorio;
         iniciarComponentes();
         setSize(300, 300);
         setVisible(true);

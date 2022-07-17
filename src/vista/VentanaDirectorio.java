@@ -123,6 +123,7 @@ public class VentanaDirectorio extends JFrame{
         btnEstudiantes.addMouseListener(new ManejadorDeEventos());
         btnEmpleados.addMouseListener(new ManejadorDeEventos());
         btnTodos.addMouseListener(new ManejadorDeEventos());
+        btnConfiguracion.addMouseListener(new ManejadorDeEventos());
     }
     
     private String getDirectorioVisual(String estamento){
@@ -165,6 +166,10 @@ public class VentanaDirectorio extends JFrame{
             else if(e.getSource() == btnActualizar || e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
                 tpDirectorio.setText(getDirectorioVisual("todos"));
+            }
+            else if(e.getSource() == btnConfiguracion){
+                VentanaConfiguracion ventanaConfiguracion = 
+                        new VentanaConfiguracion(directorio);
             }
         }
     }

@@ -65,6 +65,10 @@ public class Contacto implements Serializable {
         return apellidos;
     }
 
+    public String getEstamento() {
+        return estamento;
+    }
+
     public ArrayList<Map<String, String>> getTelefonos() {
         return telefonos;
     }

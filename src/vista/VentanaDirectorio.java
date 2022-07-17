@@ -117,7 +117,7 @@ public class VentanaDirectorio extends JFrame{
         StyleConstants.setFontSize(attribs, 18);
         tpDirectorio.setParagraphAttributes(attribs, true);
         
-        tpDirectorio.setText(getDirectorioVisual());
+        tpDirectorio.setText(getDirectorioVisual("todos"));
         
         spDirectorio = new JScrollPane(tpDirectorio);
         spDirectorio.setBounds(5, 60, 475, 350);
@@ -132,21 +132,28 @@ public class VentanaDirectorio extends JFrame{
         //listeners
         btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
         btnActualizar.addMouseListener(new ManejadorDeEventos());
+        btnProfesores.addMouseListener(new ManejadorDeEventos());
+        btnEstudiantes.addMouseListener(new ManejadorDeEventos());
+        btnEmpleados.addMouseListener(new ManejadorDeEventos());
+        btnTodos.addMouseListener(new ManejadorDeEventos());
     }
     
-    private String getDirectorioVisual(){
+    private String getDirectorioVisual(String estamento){
         String dir = "";
         
         ArrayList<Contacto> contactos = directorio.getContactos();
         for(Contacto ctt : contactos){
-            dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
+            if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
+                dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
             
-            ArrayList<Map<String, String>> tels = ctt.getTelefonos();
-            
-            for(Map<String, String> tel : tels){
-                dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+
+                for(Map<String, String> tel : tels){
+                    dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                }
+                dir += "\n";
             }
-            dir += "\n";
+            
         }
         return dir;
     }
@@ -159,9 +166,18 @@ public class VentanaDirectorio extends JFrame{
                 VentanaAgregarContacto ventanaAgregarContacto = 
                         new VentanaAgregarContacto(directorio);
             }
-            else if(e.getSource() == btnActualizar){
+            else if(e.getSource() == btnProfesores){
+                tpDirectorio.setText(getDirectorioVisual("profesor"));
+            }
+            else if(e.getSource() == btnEstudiantes){
+                tpDirectorio.setText(getDirectorioVisual("estudiante"));
+            }
+            else if(e.getSource() == btnEmpleados){
+                tpDirectorio.setText(getDirectorioVisual("empleado"));
+            }
+            else if(e.getSource() == btnActualizar || e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
-                tpDirectorio.setText(getDirectorioVisual());
+                tpDirectorio.setText(getDirectorioVisual("todos"));
             }
         }
 

@@ -14,13 +14,13 @@ import java.util.Map;
 
 public class Contacto implements Serializable {
     
-    private String fechaDeNacimiento;
-    private String iD;
-    private String nombres;
-    private String apellidos;
-    private String estamento;
-    private ArrayList<Map<String, String>> direcciones;
-    private ArrayList<Map<String, String>> telefonos;
+    private final String fechaDeNacimiento;
+    private final String iD;
+    private final String nombres;
+    private final String apellidos;
+    private final String estamento;
+    private final ArrayList<Map<String, String>> direcciones;
+    private final ArrayList<Map<String, String>> telefonos;
     
     public Contacto(String fechaDeNacimiento, String iD, String nombres, 
             String apellidos, String estamento, 
@@ -35,8 +35,6 @@ public class Contacto implements Serializable {
         this.telefonos = telefonos;
     }
     
-    
-    
     //estos metodos pueden ser utiles en el futuro
     /*
     public void agregarDireccion(String direccion,String barrio,String ciudad){
@@ -47,7 +45,6 @@ public class Contacto implements Serializable {
         
         direcciones.add(dir);
     }
-    
     
     public void agregarTelefono(String numero, String tipo){
         Map<String,String> telefono = new HashMap();

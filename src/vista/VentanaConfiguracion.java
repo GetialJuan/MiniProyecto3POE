@@ -75,7 +75,9 @@ public class VentanaConfiguracion extends JFrame{
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getSource() == btnBorrarInformacion){
-                
+                directorio.borrarInformacion();
+                JOptionPane.showMessageDialog(null, "Se ha borrado toda la "
+                        + "informacion");
             }
             else if(e.getSource() == btnCrearBackup){
                 directorio.crearBackup();
@@ -88,7 +90,9 @@ public class VentanaConfiguracion extends JFrame{
                         + "contactos.txt");
             }
             else if(e.getSource() == btnRestaurarInformacion){
-                
+                directorio.restaurarInformacion();
+                JOptionPane.showMessageDialog(null, "Se restauro la "
+                        + "informacion del ultimo Backup");
             }
         }
     }

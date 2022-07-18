@@ -30,10 +30,14 @@ import vista.VentanaDirectorio;
 public class Directorio {
     private final ArrayList<Contacto> directorio;
     private final File flDirectorio;
+    private File backup;
 
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();
         flDirectorio = txtDirectorio;
+        backup = new File(
+            new File("").getAbsolutePath().
+                    concat("\\src\\directoriotelefonico\\backup.dat"));
         
         establecerDirectorioPersistente();
         /*
@@ -71,6 +75,18 @@ public class Directorio {
     
     public void agregarContacto(Contacto contacto){
         directorio.add(contacto);
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,true);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(contacto);
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
     }
     
     public ArrayList<Contacto> getContactos(){
@@ -79,25 +95,7 @@ public class Directorio {
     
     public void establecerDirectorioPersistente(){
         this.directorio.clear();
-        try {
-            FileInputStream fis = new FileInputStream(flDirectorio);
-            ObjectInputStream ois = null;
-            
-            while(fis.available() > 0){
-                ois = new ObjectInputStream(fis);
-                this.directorio.add((Contacto)ois.readObject());
-            }
-            
-            fis.close();
-            if(ois != null){
-                ois.close();
-            }
-            
-        } catch (FileNotFoundException | ClassNotFoundException ex) {
-            Logger.getLogger(VentanaDirectorio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex){
-            
-        }
+        importarDirectorio(flDirectorio);
     }
     
     public void exportarInformacion(){
@@ -140,15 +138,17 @@ public class Directorio {
     public String getDirectorioVisual(String estamento){
         String dir = "";
         for(Contacto ctt : directorio){
-            if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
-                dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
-            
-                ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+            if(ctt != null){
+                if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
+                    dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
 
-                for(Map<String, String> tel : tels){
-                    dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                    ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+
+                    for(Map<String, String> tel : tels){
+                        dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                    }
+                    dir += "\n";
                 }
-                dir += "\n";
             }
             
         }
@@ -157,7 +157,7 @@ public class Directorio {
     
     public void crearBackup(){
         try {
-            File backup = new File(
+            backup = new File(
             new File("").getAbsolutePath().
                     concat("\\src\\directoriotelefonico\\backup.dat"));
             FileOutputStream fos = new FileOutputStream(backup,false);
@@ -173,6 +173,49 @@ public class Directorio {
             System.out.println("no se encontro el archivo");
         }catch (IOException ex){
             System.out.println("no se encontro el archivo");
+        }
+    }
+    
+    public void restaurarInformacion(){
+        this.directorio.clear();
+        importarDirectorio(backup);
+    }
+    
+    public void borrarInformacion(){
+        this.directorio.clear();
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(null);
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
+    
+    private void importarDirectorio(File directorio){
+        try {
+            FileInputStream fis = new FileInputStream(directorio);
+            ObjectInputStream ois = null;
+            
+            while(fis.available() > 0){
+                ois = new ObjectInputStream(fis);
+                agregarContacto((Contacto)ois.readObject());
+            }
+            
+            fis.close();
+            if(ois != null){
+                ois.close();
+            }
+            
+        } catch (FileNotFoundException | ClassNotFoundException ex) {
+            Logger.getLogger(VentanaDirectorio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex){
+            
         }
     }
     /*

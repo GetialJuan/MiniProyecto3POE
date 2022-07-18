@@ -5,8 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import modelo.Contacto;
 import modelo.Directorio;
 
 /**
@@ -104,7 +101,7 @@ public class VentanaDirectorio extends JFrame{
         StyleConstants.setFontSize(attribs, 18);
         tpDirectorio.setParagraphAttributes(attribs, true);
         
-        tpDirectorio.setText(getDirectorioVisual("todos"));
+        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
         
         spDirectorio = new JScrollPane(tpDirectorio);
         spDirectorio.setBounds(5, 60, 475, 350);
@@ -123,26 +120,7 @@ public class VentanaDirectorio extends JFrame{
         btnEstudiantes.addMouseListener(new ManejadorDeEventos());
         btnEmpleados.addMouseListener(new ManejadorDeEventos());
         btnTodos.addMouseListener(new ManejadorDeEventos());
-    }
-    
-    private String getDirectorioVisual(String estamento){
-        String dir = "";
-        
-        ArrayList<Contacto> contactos = directorio.getContactos();
-        for(Contacto ctt : contactos){
-            if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
-                dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
-            
-                ArrayList<Map<String, String>> tels = ctt.getTelefonos();
-
-                for(Map<String, String> tel : tels){
-                    dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
-                }
-                dir += "\n";
-            }
-            
-        }
-        return dir;
+        btnConfiguracion.addMouseListener(new ManejadorDeEventos());
     }
     
     private class ManejadorDeEventos extends MouseAdapter{
@@ -154,17 +132,21 @@ public class VentanaDirectorio extends JFrame{
                         new VentanaAgregarContacto(directorio);
             }
             else if(e.getSource() == btnProfesores){
-                tpDirectorio.setText(getDirectorioVisual("profesor"));
+                tpDirectorio.setText(directorio.getDirectorioVisual("profesor"));
             }
             else if(e.getSource() == btnEstudiantes){
-                tpDirectorio.setText(getDirectorioVisual("estudiante"));
+                tpDirectorio.setText(directorio.getDirectorioVisual("estudiante"));
             }
             else if(e.getSource() == btnEmpleados){
-                tpDirectorio.setText(getDirectorioVisual("empleado"));
+                tpDirectorio.setText(directorio.getDirectorioVisual("empleado"));
             }
             else if(e.getSource() == btnActualizar || e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
-                tpDirectorio.setText(getDirectorioVisual("todos"));
+                tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+            }
+            else if(e.getSource() == btnConfiguracion){
+                VentanaConfiguracion ventanaConfiguracion = 
+                        new VentanaConfiguracion(directorio);
             }
         }
     }

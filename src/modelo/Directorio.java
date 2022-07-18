@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,12 +29,14 @@ import vista.VentanaDirectorio;
 
 public class Directorio {
     private final ArrayList<Contacto> directorio;
-    private FileWriter fwDirectorio;
     private final File flDirectorio;
+    private File backup;
 
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();
         flDirectorio = txtDirectorio;
+        backup = new File(new File("").getAbsolutePath().
+                concat("\\src\\directoriotelefonico\\backup.dat"));
         
         establecerDirectorioPersistente();
         /*
@@ -67,25 +70,22 @@ public class Directorio {
         }catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
-        
-        //Se añaden  los datos al txt
-            /*
-            PrintWriter pwDirectorio = new PrintWriter(fwDirectorio);
-            pwDirectorio.println();
-            pwDirectorio.print(iD+","+nombres+","+apellidos+","+fechaDeNacimiento
-            +","+estamento+",");
-            for(Map<String,String> e : telefonos){
-            pwDirectorio.print(e);
-            }
-            pwDirectorio.print(",");
-            for(Map<String,String> e : direcciones){
-            pwDirectorio.print(e);
-            }
-            resetearFileWriter();*/
     }
     
     public void agregarContacto(Contacto contacto){
         directorio.add(contacto);
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,true);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(contacto);
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
     }
     
     public ArrayList<Contacto> getContactos(){
@@ -94,8 +94,110 @@ public class Directorio {
     
     public void establecerDirectorioPersistente(){
         this.directorio.clear();
+        importarInformacion(flDirectorio);
+    }
+    
+    public void exportarInformacion(){
+        File dirTxt = new File(
+        new File("").getAbsolutePath().
+                concat("\\src\\directoriotelefonico\\contactos.txt"));
+        //Se añaden  los datos al txt
+        
         try {
-            FileInputStream fis = new FileInputStream(flDirectorio);
+            FileWriter fw = new FileWriter(dirTxt, false);
+            PrintWriter pw = new PrintWriter(fw);
+            
+            pw.println("iD,nombres,apellidos,fechaDeNacimiento,estamento,"
+                    + "telefonos,direcciones");
+            for(Contacto c : directorio){
+                String strTels = "";
+                String strDirs = "";
+                ArrayList<Map<String, String>> tels = c.getTelefonos();
+                for(Map<String, String> tel : tels){
+                    strTels += tel;
+                }
+                ArrayList<Map<String, String>> dirs = c.getDirecciones();
+                for(Map<String, String> dir : dirs){
+                    strDirs += dir;
+                }
+                
+                pw.println(c.getiD()+","+c.getNombres()+","+c.getApellidos()+","
+                +c.getFechaDeNacimiento()+","+c.getEstamento()+","+strTels+","
+                +strDirs);
+            }
+            
+            fw.close();
+            pw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getDirectorioVisual(String estamento){
+        String dir = "";
+        for(Contacto ctt : directorio){
+            if(ctt != null){
+                if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
+                    dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
+
+                    ArrayList<Map<String, String>> tels = ctt.getTelefonos();
+
+                    for(Map<String, String> tel : tels){
+                        dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                    }
+                    dir += "\n";
+                }
+            }
+            
+        }
+        return dir;
+    }
+    
+    public void crearBackup(){
+        try {
+            backup = new File(
+            new File("").getAbsolutePath().
+                    concat("\\src\\directoriotelefonico\\backup.dat"));
+            FileOutputStream fos = new FileOutputStream(backup,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
+    
+    public void restaurarInformacion(){
+        directorio.clear();
+        importarInformacion(backup);
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
+    
+    private void importarInformacion(File f){
+        try {
+            FileInputStream fis = new FileInputStream(f);
             ObjectInputStream ois = null;
             
             while(fis.available() > 0){
@@ -112,6 +214,21 @@ public class Directorio {
             Logger.getLogger(VentanaDirectorio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex){
             
+        }
+    }
+    
+    public void borrarInformacion(){
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(null);
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
         }
     }
     

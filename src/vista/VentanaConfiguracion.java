@@ -5,8 +5,11 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Directorio;
 
 /**
@@ -26,8 +29,8 @@ public class VentanaConfiguracion extends JFrame{
     //contendeor principal
     private Container contPrincipal;
     
-    public VentanaConfiguracion(){
-        //this.directorio = directorio;
+    public VentanaConfiguracion(Directorio directorio){
+        this.directorio = directorio;
         iniciarComponentes();
         setSize(300, 300);
         setVisible(true);
@@ -61,6 +64,36 @@ public class VentanaConfiguracion extends JFrame{
         contPrincipal.add(btnRestaurarInformacion);
         contPrincipal.add(btnBorrarInformacion);
         
-        
+        //lsiteners
+        btnBorrarInformacion.addMouseListener(new ManejadorDeEventos());
+        btnCrearBackup.addMouseListener(new ManejadorDeEventos());
+        btnExportarInformacion.addMouseListener(new ManejadorDeEventos());
+        btnRestaurarInformacion.addMouseListener(new ManejadorDeEventos());
+    }
+    
+    private class ManejadorDeEventos extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if(e.getSource() == btnBorrarInformacion){
+                directorio.borrarInformacion();
+                JOptionPane.showMessageDialog(null, "Se ha borrado la "
+                        + "informacion");
+            }
+            else if(e.getSource() == btnCrearBackup){
+                directorio.crearBackup();
+                JOptionPane.showMessageDialog(null, "Se ha creado un nuevo "
+                        + "backup");
+            }
+            else if(e.getSource() == btnExportarInformacion){
+                directorio.exportarInformacion();
+                JOptionPane.showMessageDialog(null, "Se ha creado el archivo "
+                        + "contactos.txt");
+            }
+            else if(e.getSource() == btnRestaurarInformacion){
+                directorio.restaurarInformacion();
+                JOptionPane.showMessageDialog(null, "Se restauro la "
+                        + "informacion del ultimo Backup");
+            }
+        }
     }
 }

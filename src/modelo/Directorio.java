@@ -35,9 +35,8 @@ public class Directorio {
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();
         flDirectorio = txtDirectorio;
-        backup = new File(
-            new File("").getAbsolutePath().
-                    concat("\\src\\directoriotelefonico\\backup.dat"));
+        backup = new File(new File("").getAbsolutePath().
+                concat("\\src\\directoriotelefonico\\backup.dat"));
         
         establecerDirectorioPersistente();
         /*
@@ -95,7 +94,7 @@ public class Directorio {
     
     public void establecerDirectorioPersistente(){
         this.directorio.clear();
-        importarDirectorio(flDirectorio);
+        importarInformacion(flDirectorio);
     }
     
     public void exportarInformacion(){
@@ -177,16 +176,15 @@ public class Directorio {
     }
     
     public void restaurarInformacion(){
-        this.directorio.clear();
-        importarDirectorio(backup);
-    }
-    
-    public void borrarInformacion(){
-        this.directorio.clear();
+        directorio.clear();
+        importarInformacion(backup);
         try {
             FileOutputStream fos = new FileOutputStream(flDirectorio,false);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(null);
+            
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
             
             fos.close();
             oos.close();
@@ -197,14 +195,14 @@ public class Directorio {
         }
     }
     
-    private void importarDirectorio(File directorio){
+    private void importarInformacion(File f){
         try {
-            FileInputStream fis = new FileInputStream(directorio);
+            FileInputStream fis = new FileInputStream(f);
             ObjectInputStream ois = null;
             
             while(fis.available() > 0){
                 ois = new ObjectInputStream(fis);
-                agregarContacto((Contacto)ois.readObject());
+                this.directorio.add((Contacto)ois.readObject());
             }
             
             fis.close();
@@ -218,6 +216,7 @@ public class Directorio {
             
         }
     }
+    
     /*
     private void resetearFileWriter(){
         try {

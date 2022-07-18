@@ -217,6 +217,21 @@ public class Directorio {
         }
     }
     
+    public void borrarInformacion(){
+        try {
+            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(null);
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
+    
     /*
     private void resetearFileWriter(){
         try {

@@ -75,7 +75,9 @@ public class VentanaConfiguracion extends JFrame{
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getSource() == btnBorrarInformacion){
-                
+                directorio.borrarInformacion();
+                JOptionPane.showMessageDialog(null, "Se ha borrado la "
+                        + "informacion");
             }
             else if(e.getSource() == btnCrearBackup){
                 directorio.crearBackup();

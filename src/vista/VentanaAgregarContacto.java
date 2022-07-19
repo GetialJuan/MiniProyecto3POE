@@ -17,6 +17,8 @@ import extras.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.List;
@@ -74,6 +76,7 @@ public class VentanaAgregarContacto extends JFrame{
     private JButton btnCerrar, btnAyuda;
 
     private boolean agregado, retorno;
+    private int x,y;
     
     //contenedorPrincipal
     private Container contPrincipal;
@@ -268,6 +271,9 @@ public class VentanaAgregarContacto extends JFrame{
         contPrincipal.add(btnAgregarTelefono);
         contPrincipal.add(btnAyuda);
         contPrincipal.add(btnCerrar);
+
+        contPrincipal.addMouseListener(new EventosJFrame());
+        contPrincipal.addMouseMotionListener(new EventosJFrame());
     }
 
     public boolean fueAgregado(){
@@ -282,6 +288,20 @@ public class VentanaAgregarContacto extends JFrame{
         TextPrompt placeholder = new TextPrompt(message, xJT);
         placeholder.changeAlpha(0.75f);
         placeholder.changeStyle(Font.ITALIC);
+    }
+
+    private class EventosJFrame extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+                Point point = MouseInfo.getPointerInfo().getLocation();
+                setLocation(point.x - x, point.y - y);
+        }
     }
 
     private class ManejadorDeEventos extends MouseAdapter{

@@ -1,0 +1,253 @@
+[33mcommit de0188ffb18199bed20efb359e9e749ea141ccbd[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Merge: 0c2e2a3 4c932a6
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Tue Jul 19 18:14:16 2022 -0500
+
+    c
+
+[33mcommit 0c2e2a364227b67665c657bac7cf658f0df6be6a[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Tue Jul 19 18:12:23 2022 -0500
+
+    c
+
+[33mcommit 4c932a6246fa0f9733d529f911818f1221311f98[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Tue Jul 19 03:17:08 2022 -0500
+
+    Solo añadi una clase para arrastrar la ventanaAgregarContacto
+
+[33mcommit 3b8ef4500580ccc93fec321b021ca5c4ca1196a5[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Tue Jul 19 03:14:22 2022 -0500
+
+    Diseño de la ventanaAgregarContacto listo
+
+[33mcommit 8130529ea3cd823743c8a79910174b1c7a1022f6[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Tue Jul 19 01:14:26 2022 -0500
+
+    Ahora los JTextField tienen Placeholders
+
+[33mcommit 795d9d669ba11da0167a38dae37769cbe0899cf7[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Mon Jul 18 23:08:45 2022 -0500
+
+    Diseño de ventanaDirectorio - ventanaConfig. terminados
+
+[33mcommit 6296d9936baec83ce3a800d49373c5f730eea0b8[m
+Merge: 9b59f4b f77c91d
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Sun Jul 17 20:49:13 2022 -0500
+
+    Pantalla de carga puesta
+
+[33mcommit 9b59f4b7c91c417f212df87f93a4ee0783145a02[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Sun Jul 17 20:47:23 2022 -0500
+
+    Pantalla de carga añadida y terminada
+
+[33mcommit f77c91d7cd274ae28638ae213d9b2cbdd67e5761[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 20:22:55 2022 -0500
+
+    Se agrego la funcinalidad de borrarInformacion
+
+[33mcommit 1a6c64044d867f9208bcca0c5c2c0b91e71066a4[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 20:17:43 2022 -0500
+
+    se agrego la funcionalidad de resturarInformacion
+
+[33mcommit 90ef51abc8788c3457ba7520141659a4110ecc6b[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 19:35:03 2022 -0500
+
+    se agrego funcionalidades de borrarInformacion y restaurar info
+
+[33mcommit 9a5b3ab8adda7d5549f2d0af288d8299023fa421[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 18:53:34 2022 -0500
+
+    Se añadio la funcionalidad de crear un backup
+
+[33mcommit 43b2b873f1b929d255c5c1101e3e992b207bc415[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 18:42:53 2022 -0500
+
+    Se mejoro la funcionalidad de actualizar el directorio
+
+[33mcommit af499f0b923abeef362e47d24d5973f419b22f5f[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 18:28:07 2022 -0500
+
+    Se agrego la funcionalidad de crear archivo txt
+
+[33mcommit 244ec434459d25f52f9301f0e1053b2a08e3fdc8[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 18:03:57 2022 -0500
+
+    Se reseteo contactos.dat para hacer un cambio en Contacto
+
+[33mcommit 5338e57812137c1a5ef16a6aa1bfe334245f3f9a[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 17:58:48 2022 -0500
+
+    Se agregaron los listners y los eventos(por definir)
+
+[33mcommit 89de3e8ca907e5a5e053b25f11620c6772bc86a0[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 17:49:20 2022 -0500
+
+    Se enlazo las ventanas Directorio y Configuracion
+
+[33mcommit c0ed9eb607f0b935733aebde5f764935bcae2897[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 17:44:28 2022 -0500
+
+    Se creo la ventanaConfiguracion(boceto)
+
+[33mcommit d915e73a204878b12b4934eda2de0f31a213dc91[m
+Author: Kaos <brayan.andres.sanchez@correounivalle.edu.co>
+Date:   Sun Jul 17 17:30:47 2022 -0500
+
+    Solo cosas en documentacion
+
+[33mcommit 312b98efc409bd9bd2f84379b9d2113c4dbb6930[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 15:24:05 2022 -0500
+
+    Se añadio la opcion de listar por estamento
+
+[33mcommit 9e904eb7bcbeaef089801268c57856b6b1af3090[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 14:12:47 2022 -0500
+
+    Se agrego la opcion de actualizar
+
+[33mcommit 4c830acc0c78ceb19a7c45023d9aa5820b73fe15[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 13:37:37 2022 -0500
+
+    Se enlazo las ventanas Directorio y AgregarContacto
+
+[33mcommit 81402599a4a7cb1e42164d0730d015745077e6fd[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 13:24:56 2022 -0500
+
+    Se cambio el txt por .dat y se avanzo el ventanaDirectorio(cambios de codigo general)
+
+[33mcommit 37b1f815375767e6ddf977faecd61dc4eb52421a[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 11:25:29 2022 -0500
+
+    Se establecio la VentanaDirectorio como inicial
+
+[33mcommit e0145e1e0ed9360bd8ec70abc94399fd43f89355[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sun Jul 17 11:15:13 2022 -0500
+
+    Se cambio el nombre de la clase VentannaPrincipal
+
+[33mcommit 8850a08818f7be573639889cf09b6f6274d9d2c2[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 19:09:09 2022 -0500
+
+    Se inicio la ventanaDirectorio
+
+[33mcommit d4c7784a0a86c1e5e24b29507da6571b3f4faf86[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 17:27:15 2022 -0500
+
+    Se cambio la opcion para escojer tipo de numero
+
+[33mcommit bba4de858fa23e6c5083ba20c53cd72358908ac6[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 15:18:57 2022 -0500
+
+    Se agrego la funcionalidad de agregar datos al txt
+
+[33mcommit e6cfba3a7943514f115ad112c4add29f85211271[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 12:34:55 2022 -0500
+
+    gitognore normal
+
+[33mcommit a2a87f417365c901e794982b478a7cc5dbc7464c[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 12:33:43 2022 -0500
+
+    Se termino el boceto de la ventanaPrincipal(para agregar contacto)
+
+[33mcommit f18aa02282bdb8b068497601e693e5900bdf5ba9[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 12:17:11 2022 -0500
+
+    Se agregaron los jtextFields para agrgar un contacto
+
+[33mcommit dbb92f7a31712d08178b3ae6433173ab29a96570[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 10:41:30 2022 -0500
+
+    Se agregaron los jTextFiedls a la ventana(provisionales)
+
+[33mcommit 1001ec3004a8f27bd71b386a7503eb0d7f9047ed[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Sat Jul 16 10:20:47 2022 -0500
+
+    Se creo el codigo base de la ventanaPrincipal
+
+[33mcommit 6661c293d029ed66fff6a77b9fd43e7f237f0756[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Fri Jul 15 21:01:42 2022 -0500
+
+    Se establecieron las bases del codigo
+
+[33mcommit 5e4fbc67b52c34166df966f5cd31f336f6113b4f[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Fri Jul 15 20:35:39 2022 -0500
+
+    Se agrego la funcion de agregar contacto al txt
+
+[33mcommit 79b3f9bc724d70676dc0ccea7db846850b4627a2[m
+Author: GetialJuan <getial.juan@correounivalle.edu.co>
+Date:   Fri Jul 15 18:27:35 2022 -0500
+
+    Se elimino agrego el metodo agregarContcto
+
+[33mcommit 48f9187092b13f4ba84cd5cab9dfaa3c5c0ab34a[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 16:54:15 2022 -0500
+
+    Se agrego constructor
+
+[33mcommit fff3ee3c841d1bf323a8411f4e313c838fd87926[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 16:50:15 2022 -0500
+
+    Se desarrollo la clase Contacto
+
+[33mcommit dec227cf48f7b1f343e6ca43151d1192ef628a5c[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 16:04:50 2022 -0500
+
+    Se creo el paquete modelo y la clase Directorio
+
+[33mcommit fc2b737ba9f7177521e3f2b5eba7aa6044fb1e29[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 16:01:59 2022 -0500
+
+    Principal.java
+
+[33mcommit fe79cc5a3972b19fd6c7b087035a756af903c972[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 15:40:03 2022 -0500
+
+    Segundo commit
+
+[33mcommit fcf8776ddcbcb8b672e08853b3df04c729d28154[m
+Author: tu <cambio@ejemplo.com>
+Date:   Thu Jul 14 15:34:46 2022 -0500
+
+    Primer commit

@@ -105,20 +105,23 @@ public class Directorio {
             pw.println("iD,nombres,apellidos,fechaDeNacimiento,estamento,"
                     + "telefonos,direcciones");
             for(Contacto c : directorio){
-                String strTels = "";
-                String strDirs = "";
-                ArrayList<Map<String, String>> tels = c.getTelefonos();
-                for(Map<String, String> tel : tels){
-                    strTels += tel;
-                }
-                ArrayList<Map<String, String>> dirs = c.getDirecciones();
-                for(Map<String, String> dir : dirs){
-                    strDirs += dir;
+                if(c != null){
+                    String strTels = "";
+                    String strDirs = "";
+                    ArrayList<Map<String, String>> tels = c.getTelefonos();
+                    for(Map<String, String> tel : tels){
+                        strTels += tel;
+                    }
+                    ArrayList<Map<String, String>> dirs = c.getDirecciones();
+                    for(Map<String, String> dir : dirs){
+                        strDirs += dir;
+                    }
+
+                    pw.println(c.getiD()+","+c.getNombres()+","+c.getApellidos()+","
+                    +c.getFechaDeNacimiento()+","+c.getEstamento()+","+strTels+","
+                    +strDirs);
                 }
                 
-                pw.println(c.getiD()+","+c.getNombres()+","+c.getApellidos()+","
-                +c.getFechaDeNacimiento()+","+c.getEstamento()+","+strTels+","
-                +strDirs);
             }
             
             fw.close();

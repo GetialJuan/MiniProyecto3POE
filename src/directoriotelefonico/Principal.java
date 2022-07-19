@@ -1,7 +1,8 @@
 package directoriotelefonico;
 
 import java.net.MalformedURLException;
-import vista.VentanaInicio;
+//import vista.VentanaInicio;
+import vista.VentanaDirectorio;
 
 /**
  * Laboratorio N.3: tercer miniproyecto. Archivo: Principal.java, Autores (Grupo 01 POE): 
@@ -13,6 +14,7 @@ import vista.VentanaInicio;
 
 public class Principal {
     public static void main(String[] args) throws MalformedURLException {
-        VentanaInicio ventanaInicio = new VentanaInicio();
+        //VentanaInicio ventanaInicio = new VentanaInicio();
+        VentanaDirectorio ventanaDirectorio = new VentanaDirectorio();
     }
 }

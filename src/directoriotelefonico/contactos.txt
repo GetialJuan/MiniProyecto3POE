@@ -1,4 +1,0 @@
-iD,nombres,apellidos,fechaDeNacimiento,estamento,telefonos,direcciones
-1005945875,Juan Sebastian,Getial Getial,25/07/2003,estudiante,{tipo=movil, numero=3014715234},{barrio=Ciudad Cordoba, ciudad=Cali, direccion=Cll55#41D33}
-1006946876,Brayan Andres,Sanchez Lozano,25/03/2001,profesor,{tipo=casa, numero=3276169},{barrio=Vergel, ciudad=Bogota, direccion=Cll44#51E35}
-1006986356,Daniela,Getial Getial,09/07/2000,empleado,{tipo=oficina, numero=3286967},{barrio=Mojica, ciudad=Buenaventurra, direccion=Cll44#67A45}

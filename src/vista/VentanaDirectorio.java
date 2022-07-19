@@ -26,6 +26,7 @@ import modelo.Directorio;
 import java.util.List;
 import java.util.ArrayList;
 import static java.awt.Frame.ICONIFIED;
+import static java.awt.Frame.NORMAL;
 
 /**
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaDirectorio.java, Autores (Grupo 01 POE): 
@@ -55,7 +56,8 @@ public class VentanaDirectorio extends JFrame{
     private Container contPrincipal;
 
     private int x, y;
-    private Timer reOpen;    
+    private Timer reOpen;   
+    private JLabel lblAyuda;
     
     public VentanaDirectorio(){
         imagenFondo imagenFondo = new imagenFondo();
@@ -148,6 +150,12 @@ public class VentanaDirectorio extends JFrame{
         
         contPrincipal.addMouseListener(new EventosJFrame());
         contPrincipal.addMouseMotionListener(new EventosJFrame());
+
+        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayuda.png")));
+        lblAyuda.setBounds(0,0,520,520);
+        contPrincipal.add(lblAyuda);
+        lblAyuda.setVisible(false);
+        lblAyuda.addMouseListener(new ManejadorDeEventos());
     }
 
     private void crearBotones(JButton xButton, int index){
@@ -199,6 +207,22 @@ public class VentanaDirectorio extends JFrame{
             if(e.getSource() == btnAgregarContacto){
                 VentanaAgregarContacto ventanaAgregarContacto = 
                         new VentanaAgregarContacto(directorio);
+                setExtendedState(ICONIFIED);
+                reOpen = new Timer(1000, null);
+                reOpen.addActionListener((ActionEvent a) -> {
+                    if(ventanaAgregarContacto.fueAgregado() == true){
+                        directorio.establecerDirectorioPersistente();
+                        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+                        setExtendedState(NORMAL);
+                        btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
+                        btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
+                        reOpen.stop();                        
+                    } else if(ventanaAgregarContacto.huboRetorno() == true){
+                        setExtendedState(NORMAL);
+                        reOpen.stop();
+                    }
+                });
+                reOpen.start();
             }
             else if(e.getSource() == btnProfesores){
                 tpDirectorio.setText(directorio.getDirectorioVisual("profesor"));
@@ -212,6 +236,8 @@ public class VentanaDirectorio extends JFrame{
             else if(e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
                 tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+                btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
+                btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
             }
             else if(e.getSource() == btnConfiguracion){
                 VentanaConfiguracion ventanaConfiguracion = new VentanaConfiguracion(directorio);
@@ -219,21 +245,29 @@ public class VentanaDirectorio extends JFrame{
                 reOpen = new Timer(1000, null);
                 reOpen.addActionListener((ActionEvent a) -> {
                     if(ventanaConfiguracion.isClosed() == true){
+                        directorio.establecerDirectorioPersistente();
+                        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
                         setExtendedState(NORMAL);
+                        btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
+                        btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
                         reOpen.stop();
                     }
                 });
                 reOpen.start();
             }             
-            /*else if(e.getSource() == btnAyuda){
-                VentanaConfiguracion ventanaConfiguracion = 
-                        new VentanaConfiguracion(directorio);
-            }*/
+            else if(e.getSource() == btnAyuda){
+                lblAyuda.setVisible(true);
+                spDirectorio.setVisible(false);
+            }
             else if(e.getSource() == btnMinimizar){
                 setExtendedState(ICONIFIED);
             }
             else if(e.getSource() == btnCerrar){
                 dispose();
+            }
+            else if(e.getSource() == lblAyuda){
+                lblAyuda.setVisible(false);
+                spDirectorio.setVisible(true);
             }
         }
     }

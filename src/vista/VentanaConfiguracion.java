@@ -7,6 +7,8 @@ import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +32,7 @@ public class VentanaConfiguracion extends JFrame{
     private JLabel lblAbajo;
     public boolean closed;
     private Container contPrincipal;
+    private List<JButton> botones = new ArrayList<>();
     
     public VentanaConfiguracion(Directorio directorio){
         imagenFondo imagenFondo = new imagenFondo();
@@ -52,64 +55,28 @@ public class VentanaConfiguracion extends JFrame{
 
         //btns
         btnCrearBackup = new JButton();
-        btnCrearBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnbac.png"))); 
-        btnCrearBackup.setAutoscrolls(true);
-        btnCrearBackup.setBorder(null);
-        btnCrearBackup.setBorderPainted(false);
-        btnCrearBackup.setContentAreaFilled(false);
-        btnCrearBackup.setFocusPainted(false);
-        btnCrearBackup.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnbacp.png"))); 
-        btnCrearBackup.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnbacr.png"))); 
-        btnCrearBackup.setBounds(11,38,278,61);
-        
         btnExportarInformacion = new JButton();
-        btnExportarInformacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnExp.png"))); 
-        btnExportarInformacion.setAutoscrolls(true);
-        btnExportarInformacion.setBorder(null);
-        btnExportarInformacion.setBorderPainted(false);
-        btnExportarInformacion.setContentAreaFilled(false);
-        btnExportarInformacion.setFocusPainted(false);
-        btnExportarInformacion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnExpp.png"))); 
-        btnExportarInformacion.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnExpr.png"))); 
-        btnExportarInformacion.setBounds(11,101,278,61);
-        
         btnBorrarInformacion = new JButton();
-        btnBorrarInformacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnBor.png"))); 
-        btnBorrarInformacion.setAutoscrolls(true);
-        btnBorrarInformacion.setBorder(null);
-        btnBorrarInformacion.setBorderPainted(false);
-        btnBorrarInformacion.setContentAreaFilled(false);
-        btnBorrarInformacion.setFocusPainted(false);
-        btnBorrarInformacion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnBorp.png"))); 
-        btnBorrarInformacion.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnBorr.png"))); 
-        btnBorrarInformacion.setBounds(10,230,280,61);
-        
         btnRestaurarInformacion = new JButton();
-        btnRestaurarInformacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnRes.png"))); 
-        btnRestaurarInformacion.setAutoscrolls(true);
-        btnRestaurarInformacion.setBorder(null);
-        btnRestaurarInformacion.setBorderPainted(false);
-        btnRestaurarInformacion.setContentAreaFilled(false);
-        btnRestaurarInformacion.setFocusPainted(false);
-        btnRestaurarInformacion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnResp.png"))); 
-        btnRestaurarInformacion.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnResr.png"))); 
+        btnCerrar = new JButton();
+
+        botones.add(btnCrearBackup); botones.add(btnExportarInformacion); botones.add(btnBorrarInformacion);
+        botones.add(btnRestaurarInformacion); botones.add(btnCerrar);
+
+        for(JButton xButton : botones){
+            crearBotones(xButton, botones.indexOf(xButton));
+        }
+ 
+        btnCrearBackup.setBounds(11,38,278,61); 
+        btnExportarInformacion.setBounds(11,101,278,61); 
+        btnBorrarInformacion.setBounds(10,230,280,61); 
         btnRestaurarInformacion.setBounds(10,164,280,64);
+        btnCerrar.setBounds(260,12,23,23);
         
         //Contenedor Principal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
-
-        btnCerrar = new JButton();
-        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer2.png"))); 
-        btnCerrar.setAutoscrolls(true);
-        btnCerrar.setBorder(null);
-        btnCerrar.setBorderPainted(false);
-        btnCerrar.setContentAreaFilled(false);
-        btnCerrar.setFocusPainted(false);
-        btnCerrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCerp2.png"))); 
-        btnCerrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCerr2.png"))); 
-        btnCerrar.setBounds(260,12,23,23);
-
+ 
         lblAbajo = new JLabel();
         lblAbajo.setIcon(new ImageIcon(getClass().getResource("/botones/btnAbajo.png")));
         lblAbajo.setBounds(0,282,300,18);
@@ -119,15 +86,31 @@ public class VentanaConfiguracion extends JFrame{
         contPrincipal.add(btnRestaurarInformacion);
         contPrincipal.add(lblAbajo);
         contPrincipal.add(btnBorrarInformacion);
-
         contPrincipal.add(btnCerrar);
-        
-        //listeners
-        btnBorrarInformacion.addMouseListener(new ManejadorDeEventos());
-        btnCrearBackup.addMouseListener(new ManejadorDeEventos());
-        btnExportarInformacion.addMouseListener(new ManejadorDeEventos());
-        btnRestaurarInformacion.addMouseListener(new ManejadorDeEventos());
-        btnCerrar.addMouseListener(new ManejadorDeEventos());
+    }
+
+    private void crearBotones(JButton xButton, int index){
+        String dir = obtenerDireccion(index);
+        xButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+".png"))); 
+        xButton.setAutoscrolls(true);
+        xButton.setBorder(null);
+        xButton.setBorderPainted(false);
+        xButton.setContentAreaFilled(false);
+        xButton.setFocusPainted(false);
+        xButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+"p.png"))); 
+        xButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+"r.png"))); 
+        xButton.addMouseListener(new ManejadorDeEventos());
+    }
+
+    private String obtenerDireccion(int index){
+        switch(index){
+            case 0 -> { return "bac"; }
+            case 1 -> { return "Exp"; }
+            case 2 -> { return "Bor"; }
+            case 3 -> { return "Res"; }
+            case 4 -> { return "Cer2"; }
+        }
+        return "";
     }
     
     private class ManejadorDeEventos extends MouseAdapter {

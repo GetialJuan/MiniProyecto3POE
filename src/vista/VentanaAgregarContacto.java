@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Directorio;
+import extras.*;
+import java.awt.Font;
+import java.util.List;
 
 /**
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaAgregarContacto.java, Autores (Grupo 01 POE): 
@@ -28,6 +31,8 @@ public class VentanaAgregarContacto extends JFrame{
     //objetosAuxiliares
     private ArrayList<Map<String,String>> listAuxDir;
     private ArrayList<Map<String,String>> listAuxTel;
+    private List <JTextField> cajas;
+    private List <String> mensajes;
     
     //Jtextfields
     private JTextField txtNombres;
@@ -60,11 +65,15 @@ public class VentanaAgregarContacto extends JFrame{
     private JButton btnAgregarTelefono;
     private JButton btnAgregarContacto;
     private JButton btnVerDirectorio;
+
+    private boolean agregado, retorno;
     
     //contenedorPrincipal
     private Container contPrincipal;
     
     public VentanaAgregarContacto(Directorio directorio){
+        this.mensajes = new ArrayList<>();
+        this.cajas = new ArrayList<>();
         this.directorio = directorio;
         iniciarComponentes();
         setSize(600, 600);
@@ -76,19 +85,27 @@ public class VentanaAgregarContacto extends JFrame{
     }
     
     private void iniciarComponentes(){
-        
+        agregado = false;
+        retorno = false;
+
         //obejtos aux
         listAuxDir = new ArrayList<>();
         listAuxTel = new ArrayList<>();
         
         //jtextfields
-        txtNombres = new JTextField("Ingrese los nombres");
+        txtNombres = new JTextField();
+        mensajes.add("Ingrese los nombres");
+        cajas.add(txtNombres);
         txtNombres.setBounds(430, 10, 150, 25);
         
-        txtApellidos = new JTextField("Ingrese los apellidos");
+        txtApellidos = new JTextField();
+        mensajes.add("Ingrese los apellidos");
+        cajas.add(txtApellidos);
         txtApellidos.setBounds(430, 50, 150, 25);
         
-        txtID = new JTextField("Ingrese el iD");
+        txtID = new JTextField();
+        mensajes.add("Ingrese el iD");
+        cajas.add(txtID);
         txtID.setBounds(430, 80, 150, 25);
         
         //estamento (JComboBOx)
@@ -97,13 +114,19 @@ public class VentanaAgregarContacto extends JFrame{
         cbEstamento.setBounds(430, 115, 150, 25);
         
         //direcciones(lista)
-        JTextField direccion = new JTextField("direccion");
+        JTextField direccion = new JTextField();
+        mensajes.add("direccion");
+        cajas.add(direccion);
         direccion.setBounds(10, 150, 150, 25);
         
-        JTextField barrio = new JTextField("barrio");
+        JTextField barrio = new JTextField();
+        mensajes.add("barrio");
+        cajas.add(barrio);
         barrio.setBounds(170, 150, 150, 25);
 
-        JTextField ciudad = new JTextField("ciudad");
+        JTextField ciudad = new JTextField();
+        mensajes.add("ciudad");
+        cajas.add(ciudad);
         ciudad.setBounds(330, 150, 150, 25);
         
         listTxtDireccion = new ArrayList<>();
@@ -112,7 +135,9 @@ public class VentanaAgregarContacto extends JFrame{
         listTxtDireccion.add(ciudad);
         
         //telefono(lista)
-        txtNumero = new JTextField("numero");
+        txtNumero = new JTextField();
+        mensajes.add("numero");
+        cajas.add(txtNumero);
         txtNumero.setBounds(10, 190, 150, 25);
         
         String[] tiposDeNumero = {"movil", "casa", "oficina"};
@@ -120,14 +145,24 @@ public class VentanaAgregarContacto extends JFrame{
         cbTipoNumero.setBounds(170, 190, 150, 25);
         
         //FechaDeNacimiento(lista)
-        JTextField dia = new JTextField("dia");
+        JTextField dia = new JTextField();
+        mensajes.add("dia");
+        cajas.add(dia);
         dia.setBounds(10, 230, 150, 25);
         
-        JTextField mes = new JTextField("mes");
+        JTextField mes = new JTextField();
+        mensajes.add("mes");
+        cajas.add(mes);
         mes.setBounds(170, 230, 150, 25);
         
-        JTextField año = new JTextField("año");
+        JTextField año = new JTextField();
+        mensajes.add("año");
+        cajas.add(año);
         año.setBounds(330, 230, 150, 25);
+
+        for(JTextField xCaja : cajas){
+            crearCajas(xCaja, mensajes.get(cajas.indexOf(xCaja)));
+        }
         
         listTxtFechaDeNacimiento = new ArrayList<>();
         listTxtFechaDeNacimiento.add(dia);
@@ -175,7 +210,21 @@ public class VentanaAgregarContacto extends JFrame{
         btnVerDirectorio.addMouseListener(new ManejadorDeEventos());
         
     }
+
+    public boolean fueAgregado(){
+        return agregado;
+    }
     
+    public boolean huboRetorno(){
+        return retorno;
+    }
+
+    private void crearCajas(JTextField xJT, String message){
+        TextPrompt placeholder = new TextPrompt(message, xJT);
+        placeholder.changeAlpha(0.75f);
+        placeholder.changeStyle(Font.ITALIC);
+    }
+
     private class ManejadorDeEventos extends MouseAdapter{
 
         @Override
@@ -196,7 +245,13 @@ public class VentanaAgregarContacto extends JFrame{
                 listAuxDir.clear();
                 listAuxTel.clear();
                 
-                JOptionPane.showMessageDialog(null, "Se agrego el contacto");
+                
+                int exit = JOptionPane.showOptionDialog(null, "¿Desea Agregar otro?" , "Se agrego el contacto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "SI", "NO" }, "NO");
+                if (exit == JOptionPane.NO_OPTION)
+                {
+                    dispose();
+                    agregado = true;
+                }
             }
             else if(e.getSource() == btnAgregarDireccion){
                 String[] claves = {"direccion", "barrio", "ciudad"};
@@ -217,6 +272,7 @@ public class VentanaAgregarContacto extends JFrame{
                 listAuxTel.add(telAux);
             }
             else if(e.getSource() == btnVerDirectorio){
+                retorno = true;
                 dispose();
             }
         }

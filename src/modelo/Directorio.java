@@ -23,7 +23,7 @@ import vista.VentanaDirectorio;
  * Laboratorio N.3: tercer miniproyecto. Archivo: Directorio.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Fecha creación: 16-07-2022, Fecha última modificación: 18-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
@@ -58,27 +58,23 @@ public class Directorio {
         
         directorio.add(nuevoContacto);
         
-        try {
-            FileOutputStream fos = new FileOutputStream(flDirectorio,true);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,true);
+             ObjectOutputStream oos = new ObjectOutputStream(fos); ){ 
             oos.writeObject(nuevoContacto);
-            
             fos.close();
             oos.close();
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
+        } catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }
     
     public void agregarContacto(Contacto contacto){
         directorio.add(contacto);
-        try {
-            FileOutputStream fos = new FileOutputStream(flDirectorio,true);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,true);
+            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
             oos.writeObject(contacto);
-            
             fos.close();
             oos.close();
         } catch (FileNotFoundException ex) {
@@ -103,10 +99,9 @@ public class Directorio {
                 concat("\\src\\directoriotelefonico\\contactos.txt"));
         //Se añaden  los datos al txt
         
-        try {
-            FileWriter fw = new FileWriter(dirTxt, false);
-            PrintWriter pw = new PrintWriter(fw);
-            
+        try (FileWriter fw = new FileWriter(dirTxt, false);
+            PrintWriter pw = new PrintWriter(fw); ){
+
             pw.println("iD,nombres,apellidos,fechaDeNacimiento,estamento,"
                     + "telefonos,direcciones");
             for(Contacto c : directorio){
@@ -155,13 +150,12 @@ public class Directorio {
     }
     
     public void crearBackup(){
-        try {
+        try (FileOutputStream fos = new FileOutputStream(backup,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
             backup = new File(
             new File("").getAbsolutePath().
                     concat("\\src\\directoriotelefonico\\backup.dat"));
-            FileOutputStream fos = new FileOutputStream(backup,false);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            
+
             for(Contacto c : directorio){
                 oos.writeObject(c);
             }
@@ -178,10 +172,9 @@ public class Directorio {
     public void restaurarInformacion(){
         directorio.clear();
         importarInformacion(backup);
-        try {
-            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
+
             for(Contacto c : directorio){
                 oos.writeObject(c);
             }
@@ -196,8 +189,8 @@ public class Directorio {
     }
     
     private void importarInformacion(File f){
-        try {
-            FileInputStream fis = new FileInputStream(f);
+        try (FileInputStream fis = new FileInputStream(f); ){
+
             ObjectInputStream ois = null;
             
             while(fis.available() > 0){
@@ -218,11 +211,10 @@ public class Directorio {
     }
     
     public void borrarInformacion(){
-        try {
-            FileOutputStream fos = new FileOutputStream(flDirectorio,false);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+          
             oos.writeObject(null);
-            
             fos.close();
             oos.close();
         } catch (FileNotFoundException ex) {

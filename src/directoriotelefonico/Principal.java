@@ -1,5 +1,6 @@
 package directoriotelefonico;
 
+import java.io.File;
 import java.net.MalformedURLException;
 //import vista.VentanaInicio;
 import vista.VentanaDirectorio;

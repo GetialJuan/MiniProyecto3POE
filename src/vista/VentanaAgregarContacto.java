@@ -15,7 +15,13 @@ import javax.swing.JTextField;
 import modelo.Directorio;
 import extras.*;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaAgregarContacto.java, Autores (Grupo 01 POE): 
@@ -31,8 +37,8 @@ public class VentanaAgregarContacto extends JFrame{
     //objetosAuxiliares
     private ArrayList<Map<String,String>> listAuxDir;
     private ArrayList<Map<String,String>> listAuxTel;
-    private List <JTextField> cajas;
-    private List <String> mensajes;
+    private final List <JTextField> cajas;
+    private final List <String> mensajes;
     
     //Jtextfields
     private JTextField txtNombres;
@@ -59,12 +65,13 @@ public class VentanaAgregarContacto extends JFrame{
     private JLabel lblDirecciones;
     private JLabel lblTelefonos;
     private JLabel lblID;
-    
+    private JLabel lblAyuda;
+
     //jButons
     private JButton btnAgregarDireccion;
     private JButton btnAgregarTelefono;
     private JButton btnAgregarContacto;
-    private JButton btnVerDirectorio;
+    private JButton btnCerrar, btnAyuda;
 
     private boolean agregado, retorno;
     
@@ -72,11 +79,16 @@ public class VentanaAgregarContacto extends JFrame{
     private Container contPrincipal;
     
     public VentanaAgregarContacto(Directorio directorio){
+        imagenFondo imagenFondo = new imagenFondo();
+        setUndecorated(true);
+        this.setContentPane(imagenFondo);
         this.mensajes = new ArrayList<>();
         this.cajas = new ArrayList<>();
         this.directorio = directorio;
         iniciarComponentes();
-        setSize(600, 600);
+        setSize(600, 400);
+        Shape forma = new RoundRectangle2D.Double(0,0,600,400,30,30);
+        this.setShape(forma);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -96,38 +108,38 @@ public class VentanaAgregarContacto extends JFrame{
         txtNombres = new JTextField();
         mensajes.add("Ingrese los nombres");
         cajas.add(txtNombres);
-        txtNombres.setBounds(430, 10, 150, 25);
+        txtNombres.setBounds(33, 105, 150, 25);
         
         txtApellidos = new JTextField();
         mensajes.add("Ingrese los apellidos");
         cajas.add(txtApellidos);
-        txtApellidos.setBounds(430, 50, 150, 25);
+        txtApellidos.setBounds(226, 105, 150, 25);
         
         txtID = new JTextField();
         mensajes.add("Ingrese el iD");
         cajas.add(txtID);
-        txtID.setBounds(430, 80, 150, 25);
+        txtID.setBounds(415, 105, 150, 25);
         
         //estamento (JComboBOx)
         String[] estamentos = {"empleado","estudiante","profesor"};
         cbEstamento = new JComboBox<>(estamentos);
-        cbEstamento.setBounds(430, 115, 150, 25);
+        cbEstamento.setBounds(415, 270, 150, 25);
         
         //direcciones(lista)
         JTextField direccion = new JTextField();
         mensajes.add("direccion");
         cajas.add(direccion);
-        direccion.setBounds(10, 150, 150, 25);
+        direccion.setBounds(33, 195, 150, 25);
         
         JTextField barrio = new JTextField();
         mensajes.add("barrio");
         cajas.add(barrio);
-        barrio.setBounds(170, 150, 150, 25);
+        barrio.setBounds(226, 195, 150, 25);
 
         JTextField ciudad = new JTextField();
         mensajes.add("ciudad");
         cajas.add(ciudad);
-        ciudad.setBounds(330, 150, 150, 25);
+        ciudad.setBounds(415, 195, 150, 25);
         
         listTxtDireccion = new ArrayList<>();
         listTxtDireccion.add(direccion);
@@ -138,27 +150,27 @@ public class VentanaAgregarContacto extends JFrame{
         txtNumero = new JTextField();
         mensajes.add("numero");
         cajas.add(txtNumero);
-        txtNumero.setBounds(10, 190, 150, 25);
+        txtNumero.setBounds(33, 270, 150, 25);
         
         String[] tiposDeNumero = {"movil", "casa", "oficina"};
         cbTipoNumero = new JComboBox<>(tiposDeNumero);
-        cbTipoNumero.setBounds(170, 190, 150, 25);
+        cbTipoNumero.setBounds(226, 270, 150, 25);
         
         //FechaDeNacimiento(lista)
         JTextField dia = new JTextField();
         mensajes.add("dia");
         cajas.add(dia);
-        dia.setBounds(10, 230, 150, 25);
+        dia.setBounds(33, 350, 150, 25);
         
         JTextField mes = new JTextField();
         mensajes.add("mes");
         cajas.add(mes);
-        mes.setBounds(170, 230, 150, 25);
+        mes.setBounds(226, 350, 150, 25);
         
         JTextField año = new JTextField();
         mensajes.add("año");
         cajas.add(año);
-        año.setBounds(330, 230, 150, 25);
+        año.setBounds(415, 350, 150, 25);
 
         for(JTextField xCaja : cajas){
             crearCajas(xCaja, mensajes.get(cajas.indexOf(xCaja)));
@@ -170,22 +182,75 @@ public class VentanaAgregarContacto extends JFrame{
         listTxtFechaDeNacimiento.add(año);
         
         //btns
-        btnAgregarDireccion = new JButton("+");
-        btnAgregarDireccion.setBounds(490, 150, 50, 25);
+        btnAyuda = new JButton();
+        btnAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2.png"))); 
+        btnAyuda.setAutoscrolls(true);
+        btnAyuda.setBorder(null);
+        btnAyuda.setBorderPainted(false);
+        btnAyuda.setContentAreaFilled(false);
+        btnAyuda.setFocusPainted(false);
+        btnAyuda.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2p.png"))); 
+        btnAyuda.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2r.png"))); 
+        btnAyuda.addMouseListener(new ManejadorDeEventos());
+        btnAyuda.setBounds(347, 17, 33, 33);
+
+        btnAgregarDireccion = new JButton();
+        btnAgregarDireccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndir.png"))); 
+        btnAgregarDireccion.setAutoscrolls(true);
+        btnAgregarDireccion.setBorder(null);
+        btnAgregarDireccion.setBorderPainted(false);
+        btnAgregarDireccion.setContentAreaFilled(false);
+        btnAgregarDireccion.setFocusPainted(false);
+        btnAgregarDireccion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndirp.png"))); 
+        btnAgregarDireccion.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndirr.png"))); 
+        btnAgregarDireccion.addMouseListener(new ManejadorDeEventos());
+        btnAgregarDireccion.setBounds(570, 150, 30, 70);
         
-        btnAgregarTelefono = new JButton("+");
-        btnAgregarTelefono.setBounds(330, 190, 50, 25);
+        btnAgregarTelefono = new JButton();
+        btnAgregarTelefono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnum.png"))); 
+        btnAgregarTelefono.setAutoscrolls(true);
+        btnAgregarTelefono.setBorder(null);
+        btnAgregarTelefono.setBorderPainted(false);
+        btnAgregarTelefono.setContentAreaFilled(false);
+        btnAgregarTelefono.setFocusPainted(false);
+        btnAgregarTelefono.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnump.png"))); 
+        btnAgregarTelefono.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnumr.png"))); 
+        btnAgregarTelefono.addMouseListener(new ManejadorDeEventos());
+        btnAgregarTelefono.setBounds(0, 230, 30, 70);
         
-        btnAgregarContacto = new JButton("Agregar Contacto");
-        btnAgregarContacto.setBounds(430, 270, 140, 30);
+        btnAgregarContacto = new JButton();
+        btnAgregarContacto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFin.png"))); 
+        btnAgregarContacto.setAutoscrolls(true);
+        btnAgregarContacto.setBorder(null);
+        btnAgregarContacto.setBorderPainted(false);
+        btnAgregarContacto.setContentAreaFilled(false);
+        btnAgregarContacto.setFocusPainted(false);
+        btnAgregarContacto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFinp.png"))); 
+        btnAgregarContacto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFinr.png"))); 
+        btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
+        btnAgregarContacto.setBounds(400, 11, 130, 45);
         
-        btnVerDirectorio = new JButton("Ver Directorio");
-        btnVerDirectorio.setBounds(10, 270, 140, 30);
+        btnCerrar = new JButton();
+        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3.png"))); 
+        btnCerrar.setAutoscrolls(true);
+        btnCerrar.setBorder(null);
+        btnCerrar.setBorderPainted(false);
+        btnCerrar.setContentAreaFilled(false);
+        btnCerrar.setFocusPainted(false);
+        btnCerrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3p.png"))); 
+        btnCerrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3r.png"))); 
+        btnCerrar.addMouseListener(new ManejadorDeEventos());
+        btnCerrar.setBounds(550, 17, 33, 33);
+
+        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayudaC.png")));
+        lblAyuda.setBounds(0,0,600,400);
+        lblAyuda.setVisible(false);
+        lblAyuda.addMouseListener(new ManejadorDeEventos());
         
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
-        
+                contPrincipal.add(lblAyuda);
         contPrincipal.add(txtNombres);
         contPrincipal.add(txtApellidos);
         contPrincipal.add(txtID);
@@ -201,14 +266,8 @@ public class VentanaAgregarContacto extends JFrame{
         contPrincipal.add(btnAgregarContacto);
         contPrincipal.add(btnAgregarDireccion);
         contPrincipal.add(btnAgregarTelefono);
-        contPrincipal.add(btnVerDirectorio);
-        
-        //listeners
-        btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
-        btnAgregarDireccion.addMouseListener(new ManejadorDeEventos());
-        btnAgregarTelefono.addMouseListener(new ManejadorDeEventos());
-        btnVerDirectorio.addMouseListener(new ManejadorDeEventos());
-        
+        contPrincipal.add(btnAyuda);
+        contPrincipal.add(btnCerrar);
     }
 
     public boolean fueAgregado(){
@@ -271,11 +330,28 @@ public class VentanaAgregarContacto extends JFrame{
                 
                 listAuxTel.add(telAux);
             }
-            else if(e.getSource() == btnVerDirectorio){
+            else if(e.getSource() == btnCerrar){
                 retorno = true;
                 dispose();
             }
+            else if(e.getSource() == btnAyuda){
+                lblAyuda.setVisible(true);
+            } 
+            else if(e.getSource() == lblAyuda){
+                lblAyuda.setVisible(false);
+            }
         }
         
+    }
+
+        class imagenFondo extends JPanel{
+        private Image fondo;
+        @Override
+        public void paint(Graphics g) {
+            fondo = new ImageIcon(getClass().getResource("/imagenes/contactoC.png")).getImage();
+            g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            setOpaque(false);
+            super.paint(g);
+        }
     }
 }

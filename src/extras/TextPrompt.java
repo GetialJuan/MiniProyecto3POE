@@ -7,6 +7,8 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
+// Clase obtenida de internet. Su autor es Rob Camick. El uso que se le da aquí es únicamente para tener Placeholders en los JTextField.
+
 /**
  *  The TextPrompt class will display a prompt over top of a text component when
  *  the Document of the text field is empty. The Show property is used to

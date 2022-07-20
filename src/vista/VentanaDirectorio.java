@@ -122,12 +122,12 @@ public class VentanaDirectorio extends JFrame{
         //directrio
         tpDirectorio = new JTextPane();
         SimpleAttributeSet attribs = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+        StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_JUSTIFIED);
         StyleConstants.setFontFamily(attribs, "Tahoma");
         StyleConstants.setFontSize(attribs, 18);
         tpDirectorio.setParagraphAttributes(attribs, true);
         tpDirectorio.setBorder(null);
-        
+        tpDirectorio.setEditable(false);
         tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
         
         spDirectorio = new JScrollPane(tpDirectorio);

@@ -134,17 +134,19 @@ public class Directorio {
     
     public String getDirectorioVisual(String estamento){
         String dir = "";
+        int n = 0;
         for(Contacto ctt : directorio){
             if(ctt != null){
                 if(estamento.equals("todos") || estamento.equals(ctt.getEstamento())){
-                    dir += ctt.getNombres()+" "+ctt.getApellidos()+"\t";
+                    dir += "("+n+")\t"+ctt.getNombres()+" "+ctt.getApellidos()+"\t\t\t\t\t";
 
                     ArrayList<Map<String, String>> tels = ctt.getTelefonos();
 
                     for(Map<String, String> tel : tels){
-                        dir += "("+tel.get("tipo")+")"+tel.get("numero")+"|";
+                        dir += "|("+tel.get("tipo")+")"+tel.get("numero");
                     }
                     dir += "\n";
+                    n += 1;
                 }
             }
             

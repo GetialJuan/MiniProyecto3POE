@@ -154,15 +154,34 @@ public class Directorio {
         return dir;
     }
     
+    public ArrayList<Contacto> getContactos(String estamento){
+        ArrayList<Contacto> contactos = new ArrayList<>();
+        int n = 0;
+        if(!estamento.equals("todos")){
+            for(Contacto ctt : directorio){
+                if(ctt != null){
+                    if(estamento.equals(ctt.getEstamento())){
+                        contactos.add(ctt);
+                    }
+                }
+            }
+        
+            return contactos;
+        }
+        else{
+            return directorio;
+        }
+        
+    }
+    
     public void crearBackup(){
         try (FileOutputStream fos = new FileOutputStream(backup,false);
             ObjectOutputStream oos = new ObjectOutputStream(fos); ){
-            backup = new File(
-            new File("").getAbsolutePath().
-                    concat("\\src\\directoriotelefonico\\backup.dat"));
 
             for(Contacto c : directorio){
-                oos.writeObject(c);
+                if(c != null){
+                    oos.writeObject(c);
+                }
             }
             
             fos.close();
@@ -194,13 +213,13 @@ public class Directorio {
     }
     
     private void importarInformacion(File f){
-        try (FileInputStream fis = new FileInputStream(f); ){
-
-            ObjectInputStream ois = null;
+        try {
+            FileInputStream fis = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(fis);
             
             while(fis.available() > 0){
-                ois = new ObjectInputStream(fis);
-                this.directorio.add((Contacto)ois.readObject());
+                Contacto c = (Contacto)ois.readObject();
+                this.directorio.add(c);
             }
             
             fis.close();

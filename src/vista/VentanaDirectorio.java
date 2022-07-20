@@ -1,3 +1,4 @@
+
 package vista;
 
 import java.awt.Container;
@@ -27,6 +28,10 @@ import java.util.List;
 import java.util.ArrayList;
 import static java.awt.Frame.ICONIFIED;
 import static java.awt.Frame.NORMAL;
+import java.util.Map;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import modelo.Contacto;
 
 /**
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaDirectorio.java, Autores (Grupo 01 POE): 
@@ -51,6 +56,9 @@ public class VentanaDirectorio extends JFrame{
     //jtextpane(directorio visual)
     private JTextPane tpDirectorio;
     private JScrollPane spDirectorio;
+    
+    private JTable tDirectorio;
+    private DefaultTableModel modeloTabla;
     
     //contendeor principal
     private Container contPrincipal;
@@ -120,6 +128,7 @@ public class VentanaDirectorio extends JFrame{
         btnConfiguracion.setBounds(408,402,92,92);
         
         //directrio
+        /*
         tpDirectorio = new JTextPane();
         SimpleAttributeSet attribs = new SimpleAttributeSet();
         StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_JUSTIFIED);
@@ -129,8 +138,17 @@ public class VentanaDirectorio extends JFrame{
         tpDirectorio.setBorder(null);
         tpDirectorio.setEditable(false);
         tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+        */
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("#");
+        modeloTabla.addColumn("Nombres");
+        modeloTabla.addColumn("Apellidos");
+        modeloTabla.addColumn("Numeros");
+        tDirectorio = new JTable();
+        tDirectorio.setModel(modeloTabla);
+        establecerTabla("todos");
         
-        spDirectorio = new JScrollPane(tpDirectorio);
+        spDirectorio = new JScrollPane(tDirectorio);
         spDirectorio.setBounds(14, 125, 493, 372);
         spDirectorio.setBorder(null);
 
@@ -212,7 +230,8 @@ public class VentanaDirectorio extends JFrame{
                 reOpen.addActionListener((ActionEvent a) -> {
                     if(ventanaAgregarContacto.fueAgregado() == true){
                         directorio.establecerDirectorioPersistente();
-                        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+                        limpiarTabla();
+                        establecerTabla("todos");
                         setExtendedState(NORMAL);
                         btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                         btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
@@ -225,17 +244,21 @@ public class VentanaDirectorio extends JFrame{
                 reOpen.start();
             }
             else if(e.getSource() == btnProfesores){
-                tpDirectorio.setText(directorio.getDirectorioVisual("profesor"));
+                limpiarTabla();
+                establecerTabla("profesor");
             }
             else if(e.getSource() == btnEstudiantes){
-                tpDirectorio.setText(directorio.getDirectorioVisual("estudiante"));
+                limpiarTabla();
+                establecerTabla("estudiante");
             }
             else if(e.getSource() == btnEmpleados){
-                tpDirectorio.setText(directorio.getDirectorioVisual("empleado"));
+                limpiarTabla();
+                establecerTabla("empleado");
             }
             else if(e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
-                tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+                limpiarTabla();
+                establecerTabla("todos");
                 btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                 btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
             }
@@ -246,7 +269,8 @@ public class VentanaDirectorio extends JFrame{
                 reOpen.addActionListener((ActionEvent a) -> {
                     if(ventanaConfiguracion.isClosed() == true){
                         directorio.establecerDirectorioPersistente();
-                        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
+                        limpiarTabla();
+                        establecerTabla("todos");
                         setExtendedState(NORMAL);
                         btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                         btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
@@ -280,6 +304,35 @@ public class VentanaDirectorio extends JFrame{
             g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
             super.paint(g);
+        }
+    }
+    
+    private void establecerTabla(String estamento){
+        ArrayList<Contacto> contactos = directorio.getContactos(estamento);
+        int n = 0;
+        for(Contacto c : contactos){
+            if(c != null){
+                String nombres = c.getNombres();
+                String apellidos = c.getApellidos();
+                String numeros = "";
+                
+                ArrayList<Map<String, String>> tels = c.getTelefonos();
+                for(Map<String, String> tel : tels){
+                        numeros += "|("+tel.get("tipo")+")"+tel.get("numero");
+                }
+                
+                String[] contacto = {n+"", nombres, apellidos, numeros};
+                modeloTabla.addRow(contacto);
+                
+                n++;
+            }
+        }
+    }
+    
+    private void limpiarTabla(){
+        int filas = tDirectorio.getRowCount();
+        for(int i = filas -1; i >= 0; i--){
+            modeloTabla.removeRow(i);
         }
     }
 }

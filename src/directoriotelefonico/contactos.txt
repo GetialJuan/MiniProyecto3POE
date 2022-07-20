@@ -1,2 +1,3 @@
 iD,nombres,apellidos,fechaDeNacimiento,estamento,telefonos,direcciones
 213221,asdasd,asdasd,25/01/2000,empleado,{tipo=movil, numero=12465456},{barrio=aasdasd, ciudad=asdasd, direccion=asdasd}
+1005945875,Juan Sebastian,Getial Getial,25/07/2003,profesor,{tipo=movil, numero=3014715234},{barrio=Cordoba, ciudad=Cali, direccion=cll55#41D33}

@@ -316,13 +316,14 @@ public class VentanaAgregarContacto extends JFrame{
                         fechaDeNacimiento += "/";
                     }
                 }
+                
+                ArrayList<Map<String,String>> direcciones = listAuxDir;
+                ArrayList<Map<String,String>> telefonos = listAuxTel;
+                
                 directorio.agregarContacto(fechaDeNacimiento, txtID.getText(), 
                         txtNombres.getText(), txtApellidos.getText(), 
-                        ""+cbEstamento.getSelectedItem(), listAuxDir, 
-                        listAuxTel);
-                
-                listAuxDir.clear();
-                listAuxTel.clear();
+                        ""+cbEstamento.getSelectedItem(), direcciones, 
+                        telefonos);
                 
                 
                 int exit = JOptionPane.showOptionDialog(null, "¿Desea Agregar otro?" , "Se agrego el contacto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "SI", "NO" }, "NO");
@@ -331,6 +332,10 @@ public class VentanaAgregarContacto extends JFrame{
                     directorio.actualizarInformacion();
                     dispose();
                     agregado = true;
+                }
+                else if(exit == JOptionPane.YES_OPTION){
+                    listAuxDir.clear();
+                    listAuxTel.clear();
                 }
             }
             else if(e.getSource() == btnAgregarDireccion){
@@ -348,7 +353,7 @@ public class VentanaAgregarContacto extends JFrame{
                 
                 telAux.put("numero", txtNumero.getText());
                 telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
-                
+                System.out.println(telAux.get("numero"));
                 listAuxTel.add(telAux);
             }
             else if(e.getSource() == btnCerrar){

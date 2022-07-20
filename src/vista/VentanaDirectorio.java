@@ -21,14 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.Timer;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import modelo.Directorio;
 import java.util.List;
 import java.util.ArrayList;
 import static java.awt.Frame.ICONIFIED;
 import static java.awt.Frame.NORMAL;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Contacto;
@@ -49,7 +48,7 @@ public class VentanaDirectorio extends JFrame{
 
     //jButons
     private JButton btnProfesores, btnEstudiantes, btnEmpleados, btnTodos, btnAgregarContacto, 
-                    btnConfiguracion, btnAyuda, btnMinimizar, btnCerrar;
+                    btnEditarContacto,btnConfiguracion, btnAyuda, btnMinimizar, btnCerrar;
 
     private final List<JButton> botones = new ArrayList<>();
     
@@ -101,7 +100,12 @@ public class VentanaDirectorio extends JFrame{
         btnCerrar = new JButton();
         btnAgregarContacto = new JButton();
         btnConfiguracion = new JButton();
-
+        ////////Brayan ponelo bonito jejejeje////
+        btnEditarContacto = new JButton("E");
+        btnEditarContacto.setBounds(408,208,92,92);
+        btnEditarContacto.addMouseListener(new ManejadorDeEventos());
+        ///////////////////////////////
+        
         botones.add(btnProfesores); botones.add(btnEstudiantes); botones.add(btnEmpleados); botones.add(btnTodos);
         botones.add(btnAyuda); botones.add(btnMinimizar); botones.add(btnCerrar); botones.add(btnAgregarContacto);
         botones.add(btnConfiguracion);
@@ -160,6 +164,7 @@ public class VentanaDirectorio extends JFrame{
         contPrincipal.add(btnCerrar);
         contPrincipal.add(btnAgregarContacto);
         contPrincipal.add(btnConfiguracion);
+        contPrincipal.add(btnEditarContacto);
         
         contPrincipal.add(lblLinea);
         contPrincipal.add(pnlBotonesSuperiores);
@@ -243,6 +248,34 @@ public class VentanaDirectorio extends JFrame{
                 });
                 reOpen.start();
             }
+            else if(e.getSource() == btnEditarContacto){
+                if(tDirectorio.getSelectedRow() == -1){
+                    JOptionPane.showMessageDialog(null, "Seleccione el contacto"
+                            + " que desea editar primero");
+                }
+                else{
+                    VentanaEditarContacto ventanaEditarContacto = 
+                        new VentanaEditarContacto(directorio, tDirectorio.getSelectedRow());
+                    setExtendedState(ICONIFIED);
+                    reOpen = new Timer(1000, null);
+                    reOpen.addActionListener((ActionEvent a) -> {
+                        if(ventanaEditarContacto.fueAgregado() == true){
+                            directorio.establecerDirectorioPersistente();
+                            limpiarTabla();
+                            establecerTabla("todos");
+                            setExtendedState(NORMAL);
+                            btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
+                            btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
+                            reOpen.stop();                        
+                        } else if(ventanaEditarContacto.huboRetorno() == true){
+                            setExtendedState(NORMAL);
+                            reOpen.stop();
+                        }
+                    });
+                    reOpen.start();
+                }
+                
+            }
             else if(e.getSource() == btnProfesores){
                 limpiarTabla();
                 establecerTabla("profesor");
@@ -318,7 +351,7 @@ public class VentanaDirectorio extends JFrame{
                 
                 ArrayList<Map<String, String>> tels = c.getTelefonos();
                 for(Map<String, String> tel : tels){
-                        numeros += "|("+tel.get("tipo")+")"+tel.get("numero");
+                    numeros += "|("+tel.get("tipo")+")"+tel.get("numero");
                 }
                 
                 String[] contacto = {n+"", nombres, apellidos, numeros};

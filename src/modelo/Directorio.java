@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
 import java.io.File;
@@ -57,34 +53,6 @@ public class Directorio {
                 apellidos, estamento, direcciones, telefonos);
         
         directorio.add(nuevoContacto);
-        /*
-        try (FileOutputStream fos = new FileOutputStream(flDirectorio,true);
-             ObjectOutputStream oos = new ObjectOutputStream(fos); ){ 
-            oos.writeObject(nuevoContacto);
-            fos.close();
-            oos.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("no se encontro el archivo");
-        } catch (IOException ex){
-            System.out.println("no se encontro el archivo");
-        }*/
-    }
-    
-    public void actualizarInformacion(){
-        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
-            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
-
-            for(Contacto c : directorio){
-                oos.writeObject(c);
-            }
-            
-            fos.close();
-            oos.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
-            System.out.println("no se encontro el archivo");
-        }
     }
     
     public void agregarContacto(Contacto contacto){
@@ -149,6 +117,8 @@ public class Directorio {
         }
     }
     
+    
+    
     public String getDirectorioVisual(String estamento){
         String dir = "";
         int n = 0;
@@ -191,6 +161,14 @@ public class Directorio {
         
     }
     
+    public Contacto getContacto(int cualContacto){
+        return directorio.get(cualContacto);
+    }
+    
+    public void eliminarContacto(int cualContacto){
+        directorio.remove(cualContacto);
+    }
+    
     public void crearBackup(){
         try (FileOutputStream fos = new FileOutputStream(backup,false);
             ObjectOutputStream oos = new ObjectOutputStream(fos); ){
@@ -213,6 +191,23 @@ public class Directorio {
     public void restaurarInformacion(){
         directorio.clear();
         importarInformacion(backup);
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
+
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }
+    }
+    
+    public void actualizarInformacion(){
         try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
             ObjectOutputStream oos = new ObjectOutputStream(fos); ){
 

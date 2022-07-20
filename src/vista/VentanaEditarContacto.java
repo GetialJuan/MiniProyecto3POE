@@ -339,7 +339,7 @@ public class VentanaEditarContacto extends JFrame {
                 }
                 
                 //se cambian aquello valores que se hayan modificado
-                /*
+                
                 if(!"".equals(txtNombres.getText())){
                     directorio.getContacto(contactoAEditar).
                             setNombres(txtNombres.getText());
@@ -366,12 +366,12 @@ public class VentanaEditarContacto extends JFrame {
                 for(Map<String,String> tel : listAuxTel){
                     directorio.getContacto(contactoAEditar).
                             agregarTelefono(tel.get("numero"), tel.get("tipo"));
-                }*/
+                }
                 listAuxDir.clear();
                 listAuxTel.clear();
                 
                 
-                //directorio.actualizarInformacion();
+                directorio.actualizarInformacion();
                 dispose();
                 agregado = true;
             }
@@ -404,19 +404,18 @@ public class VentanaEditarContacto extends JFrame {
                 lblAyuda.setVisible(false);
             }
             else if(e.getSource() == btnEliminarContacto){
-                /*
                 directorio.eliminarContacto(contactoAEditar);
-                directorio.actualizarInformacion();*/
+                directorio.actualizarInformacion();
                 retorno = true;
                 dispose();
                 JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto");
                 
             }
             else if(e.getSource() == btnEliminarDireccion){
-                //directorio.getContacto(contactoAEditar).eliminarDireccion();
+                directorio.getContacto(contactoAEditar).eliminarDireccion();
             }
             else if(e.getSource() == btnEliminarTelefono){
-                //directorio.getContacto(contactoAEditar).eliminarTelefono();
+                directorio.getContacto(contactoAEditar).eliminarTelefono();
             }
         }
         

@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,13 +15,13 @@ import java.util.Map;
 
 public class Contacto implements Serializable {
     
-    private final String fechaDeNacimiento;
-    private final String iD;
-    private final String nombres;
-    private final String apellidos;
-    private final String estamento;
-    private final ArrayList<Map<String, String>> direcciones;
-    private final ArrayList<Map<String, String>> telefonos;
+    private String fechaDeNacimiento;
+    private String iD;
+    private String nombres;
+    private String apellidos;
+    private String estamento;
+    private ArrayList<Map<String, String>> direcciones;
+    private ArrayList<Map<String, String>> telefonos;
     
     public Contacto(String fechaDeNacimiento, String iD, String nombres, 
             String apellidos, String estamento, 
@@ -35,10 +36,8 @@ public class Contacto implements Serializable {
         this.telefonos = telefonos;
     }
     
-    //estos metodos pueden ser utiles en el futuro
-    /*
     public void agregarDireccion(String direccion,String barrio,String ciudad){
-        Map<String,String> dir = new HashMap();
+        Map<String,String> dir = new HashMap<>();
         dir.put("direccion", direccion);
         dir.put("barrio", barrio);
         dir.put("ciudad", ciudad);
@@ -47,12 +46,32 @@ public class Contacto implements Serializable {
     }
     
     public void agregarTelefono(String numero, String tipo){
-        Map<String,String> telefono = new HashMap();
+        Map<String,String> telefono = new HashMap<>();
         telefono.put("numero", numero);
         telefono.put("tipo", tipo);
         
         telefonos.add(telefono);
-    }*/
+    }
+
+    public void setFechaDeNacimiento(String fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public void setiD(String iD) {
+        this.iD = iD;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public void setEstamento(String estamento) {
+        this.estamento = estamento;
+    }
 
     public String getNombres() {
         return nombres;
@@ -80,5 +99,22 @@ public class Contacto implements Serializable {
 
     public ArrayList<Map<String, String>> getTelefonos() {
         return telefonos;
+    }
+    
+    public void eliminarDireccion(){
+        try{
+            this.direcciones.remove(0);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("no hay direcciones para eliminar");
+        }
+        
+    }
+    
+    public void eliminarTelefono(){
+        try{
+            this.telefonos.remove(0);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("no hay telefones para eliminar");
+        }
     }
 }

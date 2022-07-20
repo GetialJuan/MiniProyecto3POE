@@ -24,17 +24,15 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 /**
- * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaAgregarContacto.java, Autores (Grupo 01 POE): 
- * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
- * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
- * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
+ *
+ * @author Juan
  */
-
-public class VentanaAgregarContacto extends JFrame{
-    private final Directorio directorio;
+public class VentanaEditarContacto extends JFrame {
+    private Directorio directorio;
+    private int contactoAEditar;
     
     //objetosAuxiliares
     private ArrayList<Map<String,String>> listAuxDir;
@@ -74,6 +72,10 @@ public class VentanaAgregarContacto extends JFrame{
     private JButton btnAgregarTelefono;
     private JButton btnAgregarContacto;
     private JButton btnCerrar, btnAyuda;
+    
+    private JButton btnEliminarTelefono;
+    private JButton btnEliminarDireccion;
+    private JButton btnEliminarContacto;
 
     private boolean agregado, retorno;
     private int x,y;
@@ -81,7 +83,8 @@ public class VentanaAgregarContacto extends JFrame{
     //contenedorPrincipal
     private Container contPrincipal;
     
-    public VentanaAgregarContacto(Directorio directorio){
+    public VentanaEditarContacto(Directorio directorio, int cualConcto){
+        contactoAEditar = cualConcto;
         imagenFondo imagenFondo = new imagenFondo();
         setUndecorated(true);
         this.setContentPane(imagenFondo);
@@ -124,7 +127,7 @@ public class VentanaAgregarContacto extends JFrame{
         txtID.setBounds(415, 105, 150, 25);
         
         //estamento (JComboBOx)
-        String[] estamentos = {"empleado","estudiante","profesor"};
+        String[] estamentos = {"estamento","empleado","estudiante","profesor"};
         cbEstamento = new JComboBox<>(estamentos);
         cbEstamento.setBounds(415, 270, 150, 25);
         
@@ -244,6 +247,18 @@ public class VentanaAgregarContacto extends JFrame{
         btnCerrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3r.png"))); 
         btnCerrar.addMouseListener(new ManejadorDeEventos());
         btnCerrar.setBounds(550, 17, 33, 33);
+        
+        //////////Brayan has lo tuyo
+        btnEliminarDireccion = new JButton("-");
+        btnEliminarDireccion.setBounds(380, 150, 30, 70);
+        btnEliminarDireccion.addMouseListener(new ManejadorDeEventos());
+        btnEliminarTelefono = new JButton("-");
+        btnEliminarTelefono.addMouseListener(new ManejadorDeEventos());
+        btnEliminarTelefono.setBounds(190, 230, 30, 70);
+        btnEliminarContacto = new JButton("-C");
+        btnEliminarContacto.addMouseListener(new ManejadorDeEventos());
+        btnEliminarContacto.setBounds(300, 17, 33, 33);
+        
 
         lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayudaC.png")));
         lblAyuda.setBounds(0,0,600,400);
@@ -271,6 +286,9 @@ public class VentanaAgregarContacto extends JFrame{
         contPrincipal.add(btnAgregarTelefono);
         contPrincipal.add(btnAyuda);
         contPrincipal.add(btnCerrar);
+        contPrincipal.add(btnEliminarContacto);
+        contPrincipal.add(btnEliminarDireccion);
+        contPrincipal.add(btnEliminarTelefono);
 
         contPrincipal.addMouseListener(new EventosJFrame());
         contPrincipal.addMouseMotionListener(new EventosJFrame());
@@ -311,27 +329,51 @@ public class VentanaAgregarContacto extends JFrame{
             if(e.getSource() == btnAgregarContacto){
                 String fechaDeNacimiento = "";
                 for(int i = 0; i<3; i++){
+                    if("".equals(listTxtFechaDeNacimiento.get(i).getText())){
+                        break;
+                    }
                     fechaDeNacimiento += listTxtFechaDeNacimiento.get(i).getText();
                     if(i<2){
                         fechaDeNacimiento += "/";
                     }
                 }
-                directorio.agregarContacto(fechaDeNacimiento, txtID.getText(), 
-                        txtNombres.getText(), txtApellidos.getText(), 
-                        ""+cbEstamento.getSelectedItem(), listAuxDir, 
-                        listAuxTel);
                 
+                //se cambian aquello valores que se hayan modificado
+                /*
+                if(!"".equals(txtNombres.getText())){
+                    directorio.getContacto(contactoAEditar).
+                            setNombres(txtNombres.getText());
+                }
+                if(!"".equals(txtApellidos.getText())){
+                    directorio.getContacto(contactoAEditar).
+                            setApellidos(txtApellidos.getText());
+                }
+                if(!"".equals(txtID.getText())){
+                    directorio.getContacto(contactoAEditar).
+                            setiD(txtID.getText());
+                }
+                if(!"estamento".equals((String)cbEstamento.getSelectedItem())){
+                    directorio.getContacto(contactoAEditar).setEstamento(cbEstamento.getSelectedItem()+"");
+                }
+                if(!"".equals(fechaDeNacimiento)){
+                    directorio.getContacto(contactoAEditar).setFechaDeNacimiento(fechaDeNacimiento);
+                }
+                for(Map<String,String> dir : listAuxDir){
+                    directorio.getContacto(contactoAEditar).
+                            agregarDireccion(dir.get("direccion"), 
+                                    dir.get("barrio"), dir.get("ciudad"));
+                }
+                for(Map<String,String> tel : listAuxTel){
+                    directorio.getContacto(contactoAEditar).
+                            agregarTelefono(tel.get("numero"), tel.get("tipo"));
+                }*/
                 listAuxDir.clear();
                 listAuxTel.clear();
                 
                 
-                int exit = JOptionPane.showOptionDialog(null, "¿Desea Agregar otro?" , "Se agrego el contacto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "SI", "NO" }, "NO");
-                if (exit == JOptionPane.NO_OPTION)
-                {
-                    directorio.actualizarInformacion();
-                    dispose();
-                    agregado = true;
-                }
+                //directorio.actualizarInformacion();
+                dispose();
+                agregado = true;
             }
             else if(e.getSource() == btnAgregarDireccion){
                 String[] claves = {"direccion", "barrio", "ciudad"};
@@ -360,6 +402,21 @@ public class VentanaAgregarContacto extends JFrame{
             } 
             else if(e.getSource() == lblAyuda){
                 lblAyuda.setVisible(false);
+            }
+            else if(e.getSource() == btnEliminarContacto){
+                /*
+                directorio.eliminarContacto(contactoAEditar);
+                directorio.actualizarInformacion();*/
+                retorno = true;
+                dispose();
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto");
+                
+            }
+            else if(e.getSource() == btnEliminarDireccion){
+                //directorio.getContacto(contactoAEditar).eliminarDireccion();
+            }
+            else if(e.getSource() == btnEliminarTelefono){
+                //directorio.getContacto(contactoAEditar).eliminarTelefono();
             }
         }
         

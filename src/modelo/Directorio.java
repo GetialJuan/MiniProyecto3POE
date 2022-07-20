@@ -57,7 +57,7 @@ public class Directorio {
                 apellidos, estamento, direcciones, telefonos);
         
         directorio.add(nuevoContacto);
-        
+        /*
         try (FileOutputStream fos = new FileOutputStream(flDirectorio,true);
              ObjectOutputStream oos = new ObjectOutputStream(fos); ){ 
             oos.writeObject(nuevoContacto);
@@ -66,6 +66,23 @@ public class Directorio {
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
         } catch (IOException ex){
+            System.out.println("no se encontro el archivo");
+        }*/
+    }
+    
+    public void actualizarInformacion(){
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos); ){
+
+            for(Contacto c : directorio){
+                oos.writeObject(c);
+            }
+            
+            fos.close();
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("no se encontro el archivo");
+        }catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }

@@ -1,4 +1,1 @@
 iD,nombres,apellidos,fechaDeNacimiento,estamento,telefonos,direcciones
-,xd,,//,empleado,,
-,,,//,empleado,,
-,,,//,empleado,,

@@ -28,6 +28,8 @@ import static java.awt.Frame.ICONIFIED;
 import static java.awt.Frame.NORMAL;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +39,7 @@ import modelo.Contacto;
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaDirectorio.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 18-07-2022 
+ * Fecha creación: 16-07-2022, Fecha última modificación: 21-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
@@ -66,6 +68,8 @@ public class VentanaDirectorio extends JFrame{
     private int x, y;
     private Timer reOpen;   
     private JLabel lblAyuda, lblAbajo;
+
+    private JComboBox comboBox;
     
     public VentanaDirectorio(){
         imagenFondo imagenFondo = new imagenFondo();
@@ -153,19 +157,25 @@ public class VentanaDirectorio extends JFrame{
         tDirectorio = new JTable(){
         @Override
         public boolean isCellEditable(int rowIndex, int vColIndex) {
-            return false;
+            return vColIndex == 3;
         }};
 
         tDirectorio.setBorder(BorderFactory.createEmptyBorder());
         tDirectorio.setModel(modeloTabla);
+
         establecerTabla("todos");
-        
+        mostrarCB();
+
         spDirectorio = new JScrollPane(tDirectorio);
         spDirectorio.setBounds(14, 125, 492, 380);
         spDirectorio.setBorder(BorderFactory.createEmptyBorder());
 
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
+
+        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayuda.png")));
+        lblAyuda.setBounds(0,0,520,520);
+        contPrincipal.add(lblAyuda);
 
         contPrincipal.add(btnAyuda);
         contPrincipal.add(btnMinimizar);
@@ -182,9 +192,6 @@ public class VentanaDirectorio extends JFrame{
         contPrincipal.addMouseListener(new EventosJFrame());
         contPrincipal.addMouseMotionListener(new EventosJFrame());
 
-        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayuda.png")));
-        lblAyuda.setBounds(0,0,520,520);
-        contPrincipal.add(lblAyuda);
         contPrincipal.add(lblAbajo);
         lblAyuda.setVisible(false);
         lblAyuda.addMouseListener(new ManejadorDeEventos());
@@ -247,6 +254,7 @@ public class VentanaDirectorio extends JFrame{
                         directorio.establecerDirectorioPersistente();
                         limpiarTabla();
                         establecerTabla("todos");
+                        mostrarCB();
                         setExtendedState(NORMAL);
                         btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                         btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
@@ -264,6 +272,7 @@ public class VentanaDirectorio extends JFrame{
                             + " que desea editar primero");
                 }
                 else{
+                    System.out.println(tDirectorio.getSelectedRow());
                     VentanaEditarContacto ventanaEditarContacto = 
                         new VentanaEditarContacto(directorio, tDirectorio.getSelectedRow());
                     setExtendedState(ICONIFIED);
@@ -273,6 +282,7 @@ public class VentanaDirectorio extends JFrame{
                             directorio.establecerDirectorioPersistente();
                             limpiarTabla();
                             establecerTabla("todos");
+                            mostrarCB();    
                             setExtendedState(NORMAL);
                             btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                             btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
@@ -286,19 +296,23 @@ public class VentanaDirectorio extends JFrame{
             else if(e.getSource() == btnProfesores){
                 limpiarTabla();
                 establecerTabla("profesor");
+                mostrarCB();
             }
             else if(e.getSource() == btnEstudiantes){
                 limpiarTabla();
                 establecerTabla("estudiante");
+                mostrarCB();
             }
             else if(e.getSource() == btnEmpleados){
                 limpiarTabla();
                 establecerTabla("empleado");
+                mostrarCB();
             }
             else if(e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
                 limpiarTabla();
                 establecerTabla("todos");
+                mostrarCB();
                 btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                 btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
             }
@@ -311,6 +325,7 @@ public class VentanaDirectorio extends JFrame{
                         directorio.establecerDirectorioPersistente();
                         limpiarTabla();
                         establecerTabla("todos");
+                        mostrarCB();
                         setExtendedState(NORMAL);
                         btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                         btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
@@ -336,6 +351,16 @@ public class VentanaDirectorio extends JFrame{
         }
     }
 
+    private void mostrarCB(){
+        int aux = tDirectorio.getRowCount();
+        if(aux > 0){
+        for(int i=0; i<aux; i++){
+            tDirectorio.editCellAt(i,3);
+        }
+        tDirectorio.editCellAt(0,0);
+        }
+    }
+
     class imagenFondo extends JPanel{
         private Image fondo;
         @Override
@@ -354,16 +379,30 @@ public class VentanaDirectorio extends JFrame{
             if(c != null){
                 String nombres = c.getNombres();
                 String apellidos = c.getApellidos();
-                String numeros = "";
+                String numeros;
+
+                comboBox = new JComboBox(){
+                    @Override
+                    public Object getSelectedItem()
+                    {
+                        Object selected = super.getSelectedItem();
+
+                        if (selected == null)
+                            selected = "(Presiona Aqui)";
+
+                        return selected;
+                    }};
                 
                 ArrayList<Map<String, String>> tels = c.getTelefonos();
                 for(Map<String, String> tel : tels){
-                    numeros += "|("+tel.get("tipo")+")"+tel.get("numero");
+                    numeros = "("+tel.get("tipo")+") "+tel.get("numero");
+                    comboBox.addItem(numeros);
                 }
-                
-                String[] contacto = {n+"", nombres, apellidos, numeros};
+
+                Object[] contacto = {(int) n, (String) nombres, (String) apellidos, null};
+
                 modeloTabla.addRow(contacto);
-                
+                tDirectorio.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
                 n++;
             }
         }

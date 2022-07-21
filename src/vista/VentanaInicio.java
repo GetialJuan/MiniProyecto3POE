@@ -56,7 +56,7 @@ public class VentanaInicio extends JFrame{
         JLabel label = new JLabel(icon);
         label.setBounds(110,240,icon.getIconWidth(),icon.getIconHeight());
         this.getContentPane().add(label);
-        /*try {
+        try {
             sonido = AudioSystem.getClip();
             sonido.open(AudioSystem.getAudioInputStream(new File("src\\Musica\\fondo.wav")));
             sonido.start();
@@ -64,7 +64,7 @@ public class VentanaInicio extends JFrame{
 
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
             System.out.println("" + e);
-        }*/
+        }
         t = new Timer(5000, null);
         t.setInitialDelay(5000);
         t.addActionListener((ActionEvent e) -> {

@@ -26,9 +26,13 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Juan
+ * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaEditarContacto.java, Autores (Grupo 01 POE): 
+ * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
+ * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
+ * Fecha creación: 20-07-2022, Fecha última modificación: 21-07-2022 
+ * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
+
 public class VentanaEditarContacto extends JFrame {
     private final Directorio directorio;
     private final int contactoAEditar;
@@ -182,6 +186,10 @@ public class VentanaEditarContacto extends JFrame {
             crearCajas(xCaja, mensajes.get(cajas.indexOf(xCaja)));
         }
         
+        txtNombres.setText(directorio.getContacto(contactoAEditar).getNombres());
+        txtApellidos.setText(directorio.getContacto(contactoAEditar).getApellidos());
+        txtID.setText(directorio.getContacto(contactoAEditar).getiD());
+
         listTxtFechaDeNacimiento = new ArrayList<>();
         listTxtFechaDeNacimiento.add(dia);
         listTxtFechaDeNacimiento.add(mes);
@@ -354,6 +362,7 @@ public class VentanaEditarContacto extends JFrame {
                 directorio.actualizarInformacion();
                 dispose();
                 agregado = true;
+                retorno = true;
             }
             else if(e.getSource() == btnAgregarDireccion){
                 String[] claves = {"direccion", "barrio", "ciudad"};
@@ -417,4 +426,4 @@ public class VentanaEditarContacto extends JFrame {
             super.paint(g);
         }
     }
-}
+} //NO SE PUEDE OBTENER EL CONTACTO 0

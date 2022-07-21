@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -31,8 +30,8 @@ import javax.swing.JFrame;
  * @author Juan
  */
 public class VentanaEditarContacto extends JFrame {
-    private Directorio directorio;
-    private int contactoAEditar;
+    private final Directorio directorio;
+    private final int contactoAEditar;
     
     //objetosAuxiliares
     private ArrayList<Map<String,String>> listAuxDir;
@@ -45,6 +44,7 @@ public class VentanaEditarContacto extends JFrame {
     private JTextField txtApellidos;
     
     private ArrayList<JTextField> listTxtDireccion;
+    private final List<JButton> botones = new ArrayList<>();
     
     private ArrayList<JTextField> listTxtNumero;
     private JTextField txtNumero;
@@ -186,80 +186,33 @@ public class VentanaEditarContacto extends JFrame {
         listTxtFechaDeNacimiento.add(dia);
         listTxtFechaDeNacimiento.add(mes);
         listTxtFechaDeNacimiento.add(año);
-        
-        //btns
+
         btnAyuda = new JButton();
-        btnAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2.png"))); 
-        btnAyuda.setAutoscrolls(true);
-        btnAyuda.setBorder(null);
-        btnAyuda.setBorderPainted(false);
-        btnAyuda.setContentAreaFilled(false);
-        btnAyuda.setFocusPainted(false);
-        btnAyuda.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2p.png"))); 
-        btnAyuda.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnpre2r.png"))); 
-        btnAyuda.addMouseListener(new ManejadorDeEventos());
-        btnAyuda.setBounds(347, 17, 33, 33);
-
         btnAgregarDireccion = new JButton();
-        btnAgregarDireccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndir.png"))); 
-        btnAgregarDireccion.setAutoscrolls(true);
-        btnAgregarDireccion.setBorder(null);
-        btnAgregarDireccion.setBorderPainted(false);
-        btnAgregarDireccion.setContentAreaFilled(false);
-        btnAgregarDireccion.setFocusPainted(false);
-        btnAgregarDireccion.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndirp.png"))); 
-        btnAgregarDireccion.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btndirr.png"))); 
-        btnAgregarDireccion.addMouseListener(new ManejadorDeEventos());
-        btnAgregarDireccion.setBounds(570, 150, 30, 70);
-        
         btnAgregarTelefono = new JButton();
-        btnAgregarTelefono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnum.png"))); 
-        btnAgregarTelefono.setAutoscrolls(true);
-        btnAgregarTelefono.setBorder(null);
-        btnAgregarTelefono.setBorderPainted(false);
-        btnAgregarTelefono.setContentAreaFilled(false);
-        btnAgregarTelefono.setFocusPainted(false);
-        btnAgregarTelefono.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnump.png"))); 
-        btnAgregarTelefono.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnnumr.png"))); 
-        btnAgregarTelefono.addMouseListener(new ManejadorDeEventos());
-        btnAgregarTelefono.setBounds(0, 230, 30, 70);
-        
         btnAgregarContacto = new JButton();
-        btnAgregarContacto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFin.png"))); 
-        btnAgregarContacto.setAutoscrolls(true);
-        btnAgregarContacto.setBorder(null);
-        btnAgregarContacto.setBorderPainted(false);
-        btnAgregarContacto.setContentAreaFilled(false);
-        btnAgregarContacto.setFocusPainted(false);
-        btnAgregarContacto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFinp.png"))); 
-        btnAgregarContacto.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnFinr.png"))); 
-        btnAgregarContacto.addMouseListener(new ManejadorDeEventos());
-        btnAgregarContacto.setBounds(400, 11, 130, 45);
-        
         btnCerrar = new JButton();
-        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3.png"))); 
-        btnCerrar.setAutoscrolls(true);
-        btnCerrar.setBorder(null);
-        btnCerrar.setBorderPainted(false);
-        btnCerrar.setContentAreaFilled(false);
-        btnCerrar.setFocusPainted(false);
-        btnCerrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3p.png"))); 
-        btnCerrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btnCer3r.png"))); 
-        btnCerrar.addMouseListener(new ManejadorDeEventos());
-        btnCerrar.setBounds(550, 17, 33, 33);
-        
-        //////////Brayan has lo tuyo
-        btnEliminarDireccion = new JButton("-");
-        btnEliminarDireccion.setBounds(380, 150, 30, 70);
-        btnEliminarDireccion.addMouseListener(new ManejadorDeEventos());
-        btnEliminarTelefono = new JButton("-");
-        btnEliminarTelefono.addMouseListener(new ManejadorDeEventos());
-        btnEliminarTelefono.setBounds(190, 230, 30, 70);
-        btnEliminarContacto = new JButton("-C");
-        btnEliminarContacto.addMouseListener(new ManejadorDeEventos());
-        btnEliminarContacto.setBounds(300, 17, 33, 33);
-        
+        btnEliminarDireccion = new JButton();
+        btnEliminarTelefono = new JButton();
+        btnEliminarContacto = new JButton();
 
+        botones.add(btnAyuda); botones.add(btnAgregarDireccion); botones.add(btnAgregarTelefono); 
+        botones.add(btnAgregarContacto); botones.add(btnCerrar); botones.add(btnEliminarDireccion);
+        botones.add(btnEliminarTelefono); botones.add(btnEliminarContacto);
+
+        for(JButton xButton : botones){
+            crearBotones(xButton, botones.indexOf(xButton));
+        }
+        
+        btnAyuda.setBounds(347, 17, 33, 33);
+        btnAgregarDireccion.setBounds(570, 150, 30, 70);
+        btnAgregarTelefono.setBounds(0, 230, 30, 70);
+        btnAgregarContacto.setBounds(400, 11, 130, 45);
+        btnCerrar.setBounds(550, 17, 33, 33);
+        btnEliminarDireccion.setBounds(380, 150, 30, 70);
+        btnEliminarTelefono.setBounds(190, 230, 30, 70);
+        btnEliminarContacto.setBounds(305, 17, 33, 33);
+        
         lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayudaC.png")));
         lblAyuda.setBounds(0,0,600,400);
         lblAyuda.setVisible(false);
@@ -268,7 +221,7 @@ public class VentanaEditarContacto extends JFrame {
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
-                contPrincipal.add(lblAyuda);
+        contPrincipal.add(lblAyuda);
         contPrincipal.add(txtNombres);
         contPrincipal.add(txtApellidos);
         contPrincipal.add(txtID);
@@ -300,6 +253,33 @@ public class VentanaEditarContacto extends JFrame {
     
     public boolean huboRetorno(){
         return retorno;
+    }
+
+    private void crearBotones(JButton xButton, int index){
+        String dir = obtenerDireccion(index);
+        xButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+".png"))); 
+        xButton.setAutoscrolls(true);
+        xButton.setBorder(null);
+        xButton.setBorderPainted(false);
+        xButton.setContentAreaFilled(false);
+        xButton.setFocusPainted(false);
+        xButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+"p.png"))); 
+        xButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/botones/btn"+dir+"r.png"))); 
+        xButton.addMouseListener(new ManejadorDeEventos());
+    }
+
+    private String obtenerDireccion(int index){
+        switch(index){
+            case 0 -> { return "Pre2"; }
+            case 1 -> { return "dir"; }
+            case 2 -> { return "num"; }
+            case 3 -> { return "Fin"; }
+            case 4 -> { return "Cer3"; }
+            case 5 -> { return "qdir"; }
+            case 6 -> { return "qnum"; }
+            case 7 -> { return "del"; }
+        }
+        return "";
     }
 
     private void crearCajas(JTextField xJT, String message){
@@ -406,10 +386,16 @@ public class VentanaEditarContacto extends JFrame {
             else if(e.getSource() == btnEliminarContacto){
                 directorio.eliminarContacto(contactoAEditar);
                 directorio.actualizarInformacion();
-                retorno = true;
-                dispose();
-                JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto");
-                
+                int exit = JOptionPane.showOptionDialog(null, "Se eliminó el contacto" , "Informacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "OK", "GENIAL" }, "NO");
+                if (exit == JOptionPane.NO_OPTION)
+                {
+                    dispose();
+                    retorno = true;
+                }
+                else if(exit == JOptionPane.YES_OPTION){
+                    dispose();
+                    retorno = true;
+                }
             }
             else if(e.getSource() == btnEliminarDireccion){
                 directorio.getContacto(contactoAEditar).eliminarDireccion();
@@ -425,7 +411,7 @@ public class VentanaEditarContacto extends JFrame {
         private Image fondo;
         @Override
         public void paint(Graphics g) {
-            fondo = new ImageIcon(getClass().getResource("/imagenes/contactoC.png")).getImage();
+            fondo = new ImageIcon(getClass().getResource("/imagenes/contactoE.png")).getImage();
             g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
             super.paint(g);

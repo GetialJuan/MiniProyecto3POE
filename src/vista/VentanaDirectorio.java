@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import static java.awt.Frame.ICONIFIED;
 import static java.awt.Frame.NORMAL;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -64,7 +65,7 @@ public class VentanaDirectorio extends JFrame{
 
     private int x, y;
     private Timer reOpen;   
-    private JLabel lblAyuda;
+    private JLabel lblAyuda, lblAbajo;
     
     public VentanaDirectorio(){
         imagenFondo imagenFondo = new imagenFondo();
@@ -100,15 +101,11 @@ public class VentanaDirectorio extends JFrame{
         btnCerrar = new JButton();
         btnAgregarContacto = new JButton();
         btnConfiguracion = new JButton();
-        ////////Brayan ponelo bonito jejejeje////
-        btnEditarContacto = new JButton("E");
-        btnEditarContacto.setBounds(408,208,92,92);
-        btnEditarContacto.addMouseListener(new ManejadorDeEventos());
-        ///////////////////////////////
+        btnEditarContacto = new JButton("");
         
         botones.add(btnProfesores); botones.add(btnEstudiantes); botones.add(btnEmpleados); botones.add(btnTodos);
         botones.add(btnAyuda); botones.add(btnMinimizar); botones.add(btnCerrar); botones.add(btnAgregarContacto);
-        botones.add(btnConfiguracion);
+        botones.add(btnConfiguracion); botones.add(btnEditarContacto);
 
         for(JButton xButton : botones){
             crearBotones(xButton, botones.indexOf(xButton));
@@ -125,11 +122,16 @@ public class VentanaDirectorio extends JFrame{
         lblLinea.setIcon(new ImageIcon(getClass().getResource("/botones/linea.png")));
         lblLinea.setBounds(13,74,1,50);
 
+        lblAbajo = new JLabel();
+        lblLinea.setIcon(new ImageIcon(getClass().getResource("/botones/lblAbajo.png")));
+        lblLinea.setBounds(0,497,520,23);
+
         btnAyuda.setBounds(348,21,46,46);
         btnMinimizar.setBounds(401,21,46,46); 
         btnCerrar.setBounds(454,21,46,46); 
-        btnAgregarContacto.setBounds(408,302,92,92);
-        btnConfiguracion.setBounds(408,402,92,92);
+        btnAgregarContacto.setBounds(121,402,92,92);
+        btnConfiguracion.setBounds(221,402,92,92);
+        btnEditarContacto.setBounds(321,402,92,92);
         
         //directrio
         /*
@@ -148,13 +150,19 @@ public class VentanaDirectorio extends JFrame{
         modeloTabla.addColumn("Nombres");
         modeloTabla.addColumn("Apellidos");
         modeloTabla.addColumn("Numeros");
-        tDirectorio = new JTable();
+        tDirectorio = new JTable(){
+        @Override
+        public boolean isCellEditable(int rowIndex, int vColIndex) {
+            return false;
+        }};
+
+        tDirectorio.setBorder(BorderFactory.createEmptyBorder());
         tDirectorio.setModel(modeloTabla);
         establecerTabla("todos");
         
         spDirectorio = new JScrollPane(tDirectorio);
-        spDirectorio.setBounds(14, 125, 493, 372);
-        spDirectorio.setBorder(null);
+        spDirectorio.setBounds(14, 125, 492, 380);
+        spDirectorio.setBorder(BorderFactory.createEmptyBorder());
 
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
@@ -177,6 +185,7 @@ public class VentanaDirectorio extends JFrame{
         lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayuda.png")));
         lblAyuda.setBounds(0,0,520,520);
         contPrincipal.add(lblAyuda);
+        contPrincipal.add(lblAbajo);
         lblAyuda.setVisible(false);
         lblAyuda.addMouseListener(new ManejadorDeEventos());
     }
@@ -205,6 +214,7 @@ public class VentanaDirectorio extends JFrame{
             case 6 -> { return "Cer"; }
             case 7 -> { return "Agr"; }
             case 8 -> { return "Con"; }
+            case 9 -> { return "Edi"; }
         }
         return "";
     }
@@ -259,7 +269,7 @@ public class VentanaDirectorio extends JFrame{
                     setExtendedState(ICONIFIED);
                     reOpen = new Timer(1000, null);
                     reOpen.addActionListener((ActionEvent a) -> {
-                        if(ventanaEditarContacto.fueAgregado() == true){
+                        if(ventanaEditarContacto.huboRetorno() == true){
                             directorio.establecerDirectorioPersistente();
                             limpiarTabla();
                             establecerTabla("todos");
@@ -267,10 +277,7 @@ public class VentanaDirectorio extends JFrame{
                             btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
                             btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
                             reOpen.stop();                        
-                        } else if(ventanaEditarContacto.huboRetorno() == true){
-                            setExtendedState(NORMAL);
-                            reOpen.stop();
-                        }
+                        } 
                     });
                     reOpen.start();
                 }

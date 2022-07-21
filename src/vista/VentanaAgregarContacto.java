@@ -53,7 +53,7 @@ public class VentanaAgregarContacto extends JFrame{
     
     private ArrayList<JTextField> listTxtFechaDeNacimiento;
     
-    private JTextField txtID;
+    private JTextField txtID, direccion, barrio, ciudad;
     
     //JcomboBox
     private JComboBox<String> cbTipoNumero;
@@ -129,17 +129,17 @@ public class VentanaAgregarContacto extends JFrame{
         cbEstamento.setBounds(415, 270, 150, 25);
         
         //direcciones(lista)
-        JTextField direccion = new JTextField();
+        direccion = new JTextField();
         mensajes.add("direccion");
         cajas.add(direccion);
         direccion.setBounds(33, 195, 150, 25);
         
-        JTextField barrio = new JTextField();
+        barrio = new JTextField();
         mensajes.add("barrio");
         cajas.add(barrio);
         barrio.setBounds(226, 195, 150, 25);
 
-        JTextField ciudad = new JTextField();
+        ciudad = new JTextField();
         mensajes.add("ciudad");
         cajas.add(ciudad);
         ciudad.setBounds(415, 195, 150, 25);
@@ -245,7 +245,7 @@ public class VentanaAgregarContacto extends JFrame{
         btnCerrar.addMouseListener(new ManejadorDeEventos());
         btnCerrar.setBounds(550, 17, 33, 33);
 
-        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayudaC.png")));
+        lblAyuda = new JLabel(new ImageIcon(getClass().getResource("/imagenes/ayudaE.png")));
         lblAyuda.setBounds(0,0,600,400);
         lblAyuda.setVisible(false);
         lblAyuda.addMouseListener(new ManejadorDeEventos());
@@ -309,6 +309,24 @@ public class VentanaAgregarContacto extends JFrame{
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getSource() == btnAgregarContacto){
+                try{
+                    System.out.println(txtNombres.getText());
+                    if(txtNombres.getText().equals("")){
+                      throw new RuntimeException("Ingrese los nombres");
+                    }
+                    if(txtNumero.getText().equals("")){
+                      throw new RuntimeException("Ingrese un numero");
+                    }
+                    if(direccion.getText().equals("")){
+                      throw new RuntimeException("Ingrese una direccion");
+                    }
+                    if(barrio.getText().equals("")){
+                      throw new RuntimeException("Ingrese un barrio");
+                    }
+                    if(ciudad.getText().equals("")){
+                      throw new RuntimeException("Ingrese una ciudad");
+                    }
+
                 String fechaDeNacimiento = "";
                 for(int i = 0; i<3; i++){
                     fechaDeNacimiento += listTxtFechaDeNacimiento.get(i).getText();
@@ -324,9 +342,8 @@ public class VentanaAgregarContacto extends JFrame{
                         txtNombres.getText(), txtApellidos.getText(), 
                         ""+cbEstamento.getSelectedItem(), direcciones, 
                         telefonos);
-                
-                
-                int exit = JOptionPane.showOptionDialog(null, "¿Desea Agregar otro?" , "Se agrego el contacto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "SI", "NO" }, "NO");
+
+                int exit = JOptionPane.showOptionDialog(null, "Se agregó el contacto" , "Informacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "OK", "GENIAL" }, "NO");
                 if (exit == JOptionPane.NO_OPTION)
                 {
                     directorio.actualizarInformacion();
@@ -334,9 +351,15 @@ public class VentanaAgregarContacto extends JFrame{
                     agregado = true;
                 }
                 else if(exit == JOptionPane.YES_OPTION){
-                    listAuxDir.clear();
-                    listAuxTel.clear();
+                    directorio.actualizarInformacion();
+                    dispose();
+                    agregado = true;
                 }
+
+                } catch (RuntimeException E){
+                    JOptionPane.showMessageDialog(rootPane, E.getMessage(), "Informacion", HEIGHT);
+                }
+
             }
             else if(e.getSource() == btnAgregarDireccion){
                 String[] claves = {"direccion", "barrio", "ciudad"};

@@ -20,8 +20,8 @@ public class Contacto implements Serializable {
     private String nombres;
     private String apellidos;
     private String estamento;
-    private ArrayList<Map<String, String>> direcciones;
-    private ArrayList<Map<String, String>> telefonos;
+    private final ArrayList<Map<String, String>> direcciones;
+    private final ArrayList<Map<String, String>> telefonos;
     
     public Contacto(String fechaDeNacimiento, String iD, String nombres, 
             String apellidos, String estamento, 
@@ -101,20 +101,20 @@ public class Contacto implements Serializable {
         return telefonos;
     }
     
-    public void eliminarDireccion(){
+    public void eliminarDireccion(int dirEliminar){
         try{
-            this.direcciones.remove(0);
+            this.direcciones.remove(dirEliminar);
         }catch (IndexOutOfBoundsException e){
             System.out.println("no hay direcciones para eliminar");
         }
         
     }
     
-    public void eliminarTelefono(){
+    public void eliminarTelefono(int telEliminar){
         try{
-            this.telefonos.remove(0);
+            this.telefonos.remove(telEliminar);
         }catch (IndexOutOfBoundsException e){
-            System.out.println("no hay telefones para eliminar");
+            System.out.println("No hay telefonos para eliminar");
         }
     }
 }

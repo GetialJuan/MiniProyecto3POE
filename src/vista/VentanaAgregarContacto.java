@@ -252,6 +252,11 @@ public class VentanaAgregarContacto extends JFrame{
         lblAyuda.setBounds(0,0,600,400);
         lblAyuda.setVisible(false);
         lblAyuda.addMouseListener(new ManejadorDeEventos());
+
+        mensajes.removeAll(mensajes);
+        mensajes.add("Ingrese una direccion válida");
+        mensajes.add("Ingrese un barrio válido");
+        mensajes.add("Ingrese una ciudad válida");
         
         //contPrincipal
         contPrincipal = getContentPane();
@@ -334,24 +339,6 @@ public class VentanaAgregarContacto extends JFrame{
         return true;
     }
 
-    public List<String> vacios(List<String> lista){
-        for(String str : lista){
-            if(str.equals("")){
-                lista.remove(lista.indexOf(str));
-            }
-        }
-        return lista;
-    }
-
-    private boolean incompleto(JTextField a, JTextField b, JTextField c){
-        String tempA = a.getText();
-        String tempB = b.getText();
-        String tempC = c.getText();
-        List<String> temporal = new ArrayList<>();
-        temporal.add(tempA); temporal.add(tempB); temporal.add(tempC);
-        return temporal.size() != vacios(temporal).size() && !vacios(temporal).isEmpty();
-    }
-
     private class ManejadorDeEventos extends MouseAdapter{
 
         @Override
@@ -362,7 +349,11 @@ public class VentanaAgregarContacto extends JFrame{
                       throw new RuntimeException("Ingrese un nombre válido");
                     }
 
-                    if(!tel){
+                    if(!txtApellidos.getText().equals("") && !validString(txtApellidos.getText())){
+                      throw new RuntimeException("Ingrese un nombre válido");
+                    }
+
+                    if(tel == false){
                         if(txtNumero.getText().equals("") || !validNumber(txtNumero.getText())){
                           throw new RuntimeException("Ingrese un numero válido");
                         }
@@ -372,23 +363,23 @@ public class VentanaAgregarContacto extends JFrame{
                         }
                     }
 
-                    if(!dir){
-                        if(direccion.getText().equals("")){
-                          throw new RuntimeException("Ingrese una direccion válida");
-                        }
-                        if(barrio.getText().equals("")){
-                          throw new RuntimeException("Ingrese un barrio válido");
-                        }
-                        if(ciudad.getText().equals("") || !validString(ciudad.getText())){
-                          throw new RuntimeException("Ingrese una ciudad válida");
+                    if(dir == false){
+                        int indexAux = 0;
+                        for(JTextField x: listTxtDireccion){
+                            if(x.getText().equals("")){                    
+                                throw new RuntimeException(mensajes.get(indexAux));
+                            } else {
+                                indexAux++;
+                            }
                         }
                     } else {
-                        if(incompleto(direccion, barrio, ciudad)){
-                          throw new RuntimeException("Complete la direccion");
+                        int indexAux = 0;
+                        for(JTextField x: listTxtDireccion){
+                            if(x.getText().equals("")){                    
+                                indexAux++;
+                            } 
                         }
-                        if(!ciudad.getText().equals("") && !validString(ciudad.getText())){
-                          throw new RuntimeException("Ingrese una ciudad válida");
-                        }
+                        if(indexAux < 3 && indexAux > 0) throw new RuntimeException("Complete la direccion");
                     }
 
                     if(!dia.getText().equals("")){
@@ -420,22 +411,40 @@ public class VentanaAgregarContacto extends JFrame{
                     }
                 }
                 
+                int indexAux = 0;
+                for(JTextField x: listTxtDireccion){
+                    if(x.getText().equals("")){                    
+                        indexAux++;
+                        break;
+                    } 
+                }
+
+                Map<String,String> direccionAux = new HashMap<>();
+                String[] claves = {"direccion", "barrio", "ciudad"};
                 ArrayList<Map<String,String>> direcciones = listAuxDir;
+                if(indexAux == 0){
+                    for(int i = 0; i<3; i++){
+                        direccionAux.put(claves[i], listTxtDireccion.get(i).
+                                getText());
+                    }
+                    listAuxDir.add(direccionAux);
+                }
 
                 Map<String,String> telAux = new HashMap<>();
-                
-                telAux.put("numero", txtNumero.getText());
-                telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
-                listAuxTel.add(telAux);
-
                 ArrayList<Map<String,String>> telefonos = listAuxTel;
-                
+
+                if(!txtNumero.getText().equals("")){
+                    telAux.put("numero", txtNumero.getText());
+                    telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
+                    listAuxTel.add(telAux);
+                }
+
                 directorio.agregarContacto(fechaDeNacimiento, txtID.getText(), 
                         txtNombres.getText(), txtApellidos.getText(), 
                         ""+cbEstamento.getSelectedItem(), direcciones, 
                         telefonos);
 
-                int exit = JOptionPane.showOptionDialog(null, "Se agregó el contacto" , "Informacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "OK", "GENIAL" }, "NO");
+                int exit = JOptionPane.showOptionDialog(null, "Se agregó el contacto" , "Informacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("/botones/iconJO.png")) , new Object[] { "OK", "GENIAL" }, "NO");
                 if (exit == JOptionPane.NO_OPTION)
                 {
                     directorio.actualizarInformacion();
@@ -455,14 +464,13 @@ public class VentanaAgregarContacto extends JFrame{
             }
             else if(e.getSource() == btnAgregarDireccion){
                 try{
-                if(direccion.getText().equals("")){
-                  throw new RuntimeException("Ingrese una direccion válida");
-                }
-                if(barrio.getText().equals("")){
-                  throw new RuntimeException("Ingrese un barrio válido");
-                }
-                if(ciudad.getText().equals("") || !validString(ciudad.getText())){
-                  throw new RuntimeException("Ingrese una ciudad válida");
+                int indexAux = 0;
+                for(JTextField x: listTxtDireccion){
+                    if(x.getText().equals("")){                    
+                        throw new RuntimeException(mensajes.get(indexAux));
+                    } else {
+                        indexAux++;
+                    }
                 }
                 String[] claves = {"direccion", "barrio", "ciudad"};
                 Map<String,String> direccionAux = new HashMap<>();
@@ -471,12 +479,15 @@ public class VentanaAgregarContacto extends JFrame{
                             getText());
                 }
 
+                listAuxDir.add(direccionAux);
+
                 crearCajas(direccion, "direccion");
                 crearCajas(barrio, "barrio");
                 crearCajas(ciudad, "ciudad");
+                listTxtDireccion.removeAll(listTxtDireccion);
+                listTxtDireccion.add(direccion); listTxtDireccion.add(barrio); listTxtDireccion.add(ciudad);
                 dir = true;
                 JOptionPane.showMessageDialog(rootPane, "Se añadió esa dirección", "Información", HEIGHT);
-                listAuxDir.add(direccionAux);
                 } catch (RuntimeException E){
                     JOptionPane.showMessageDialog(rootPane, E.getMessage(), "Informacion", HEIGHT);
                 }
@@ -506,6 +517,10 @@ public class VentanaAgregarContacto extends JFrame{
             else if(e.getSource() == btnAyuda){
                 lblAyuda.setVisible(true);
             } 
+            else if(e.getSource() == lblAyuda){
+                lblAyuda.setVisible(false);
+            }
+
             else if(e.getSource() == lblAyuda){
                 lblAyuda.setVisible(false);
             }

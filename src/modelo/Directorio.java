@@ -26,7 +26,8 @@ import vista.VentanaDirectorio;
 public class Directorio {
     private final ArrayList<Contacto> directorio;
     private final File flDirectorio;
-    private File backup;
+    private final File backup;
+    private int nRows;
 
     public Directorio(File txtDirectorio) {
         directorio = new ArrayList<>();
@@ -168,6 +169,10 @@ public class Directorio {
     public void eliminarContacto(int cualContacto){
         directorio.remove(cualContacto);
     }
+
+    public void eliminarPorContacto(Contacto cual){
+        directorio.remove(cual);
+    }
     
     public void crearBackup(){
         try (FileOutputStream fos = new FileOutputStream(backup,false);
@@ -225,10 +230,9 @@ public class Directorio {
     }
     
     private void importarInformacion(File f){
-        try {
-            FileInputStream fis = new FileInputStream(f);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            
+        try (FileInputStream fis = new FileInputStream(f);
+             ObjectInputStream ois = new ObjectInputStream(fis);) {
+
             while(fis.available() > 0){
                 Contacto c = (Contacto)ois.readObject();
                 this.directorio.add(c);
@@ -247,17 +251,23 @@ public class Directorio {
     }
     
     public void borrarInformacion(){
-        try (FileOutputStream fos = new FileOutputStream(flDirectorio,false);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-          
-            oos.writeObject(null);
+        try (FileOutputStream fos = new FileOutputStream(flDirectorio);) {
+         
             fos.close();
-            oos.close();
+
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
         }catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
+    }
+
+    public int getNRows(){
+        return nRows;
+    }
+
+    public void setNRows(int rows){
+        this.nRows = rows;
     }
     
     /*

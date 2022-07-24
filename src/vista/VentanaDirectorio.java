@@ -32,7 +32,10 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumnModel;
 import modelo.Contacto;
 
 /**
@@ -68,8 +71,9 @@ public class VentanaDirectorio extends JFrame{
     private int x, y;
     private Timer reOpen;   
     private JLabel lblAyuda, lblAbajo;
+    private String tablaActual = "todos";
 
-    private JComboBox comboBox;
+    private JComboBox comboBoxDir, comboBoxTel;
     
     public VentanaDirectorio(){
         imagenFondo imagenFondo = new imagenFondo();
@@ -136,32 +140,64 @@ public class VentanaDirectorio extends JFrame{
         btnAgregarContacto.setBounds(121,402,92,92);
         btnConfiguracion.setBounds(221,402,92,92);
         btnEditarContacto.setBounds(321,402,92,92);
-        
-        //directrio
-        /*
-        tpDirectorio = new JTextPane();
-        SimpleAttributeSet attribs = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_JUSTIFIED);
-        StyleConstants.setFontFamily(attribs, "Tahoma");
-        StyleConstants.setFontSize(attribs, 18);
-        tpDirectorio.setParagraphAttributes(attribs, true);
-        tpDirectorio.setBorder(null);
-        tpDirectorio.setEditable(false);
-        tpDirectorio.setText(directorio.getDirectorioVisual("todos"));
-        */
+
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("#");
-        modeloTabla.addColumn("Nombres");
-        modeloTabla.addColumn("Apellidos");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Direcciones");
         modeloTabla.addColumn("Numeros");
         tDirectorio = new JTable(){
+
         @Override
         public boolean isCellEditable(int rowIndex, int vColIndex) {
-            return vColIndex == 3;
-        }};
+            return vColIndex == 3 || vColIndex == 2;
+        }
+
+        @Override
+        public TableCellEditor getCellEditor(int row, int column)
+        {
+            String temp[];
+            int col = convertColumnIndexToModel(column);
+            if (col == 2 || col == 3)
+            {
+                if(col == 2){
+                    temp = getListas(tablaActual, "dir", row);
+                } else {
+                    temp = getListas(tablaActual, "tel", row);
+                }
+                JComboBox cb = new JComboBox(temp){
+                    @Override
+                    public Object getSelectedItem()
+                    {
+                        Object selected = super.getSelectedItem();
+
+                        if (selected == null && temp.length > 0)
+                            selected = temp[0];
+
+                        return selected;
+                    }};
+                return new DefaultCellEditor(cb);
+            }
+            else
+                return super.getCellEditor(row, column);
+        }
+};
 
         tDirectorio.setBorder(BorderFactory.createEmptyBorder());
         tDirectorio.setModel(modeloTabla);
+
+        TableColumnModel columnModel = tDirectorio.getColumnModel();
+
+        columnModel.getColumn(0).setPreferredWidth(25);
+        columnModel.getColumn(1).setPreferredWidth(120);
+        columnModel.getColumn(2).setPreferredWidth(308);
+        columnModel.getColumn(3).setPreferredWidth(150);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        tDirectorio.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+
+        tDirectorio.addMouseListener(new ManejadorDeEventos());
 
         establecerTabla("todos");
         mostrarCB();
@@ -256,8 +292,6 @@ public class VentanaDirectorio extends JFrame{
                         establecerTabla("todos");
                         mostrarCB();
                         setExtendedState(NORMAL);
-                        btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
-                        btnAgregarContacto.setVisible(true); btnConfiguracion.setVisible(true);
                         reOpen.stop();                        
                     } else if(ventanaAgregarContacto.huboRetorno() == true){
                         setExtendedState(NORMAL);
@@ -272,9 +306,11 @@ public class VentanaDirectorio extends JFrame{
                             + " que desea editar primero");
                 }
                 else{
-                    System.out.println(tDirectorio.getSelectedRow());
+                    directorio.setNRows(tDirectorio.getRowCount());
+                    ArrayList<Contacto> contactos = directorio.getContactos(tablaActual);
+                    Contacto temporal = contactos.get(tDirectorio.getSelectedRow());
                     VentanaEditarContacto ventanaEditarContacto = 
-                        new VentanaEditarContacto(directorio, tDirectorio.getSelectedRow());
+                        new VentanaEditarContacto(directorio, temporal);
                     setExtendedState(ICONIFIED);
                     reOpen = new Timer(1000, null);
                     reOpen.addActionListener((ActionEvent a) -> {
@@ -296,21 +332,25 @@ public class VentanaDirectorio extends JFrame{
             else if(e.getSource() == btnProfesores){
                 limpiarTabla();
                 establecerTabla("profesor");
+                tablaActual = "profesor";
                 mostrarCB();
             }
             else if(e.getSource() == btnEstudiantes){
                 limpiarTabla();
+                tablaActual = "estudiante";
                 establecerTabla("estudiante");
                 mostrarCB();
             }
             else if(e.getSource() == btnEmpleados){
                 limpiarTabla();
+                tablaActual = "empleado";
                 establecerTabla("empleado");
                 mostrarCB();
             }
             else if(e.getSource() == btnTodos){
                 directorio.establecerDirectorioPersistente();
                 limpiarTabla();
+                tablaActual = "tdodos";
                 establecerTabla("todos");
                 mostrarCB();
                 btnAgregarContacto.setVisible(false); btnConfiguracion.setVisible(false);
@@ -355,6 +395,7 @@ public class VentanaDirectorio extends JFrame{
         int aux = tDirectorio.getRowCount();
         if(aux > 0){
         for(int i=0; i<aux; i++){
+            tDirectorio.editCellAt(i,2);
             tDirectorio.editCellAt(i,3);
         }
         tDirectorio.editCellAt(0,0);
@@ -371,38 +412,62 @@ public class VentanaDirectorio extends JFrame{
             super.paint(g);
         }
     }
+
+    private String[] getListas(String estamento, String cual, int row){
+        ArrayList<Contacto> contactos = directorio.getContactos(estamento);
+        int ind = 0;
+        String lista[] = {};
+        ArrayList<Map<String, String>> ops;
+        Contacto c = contactos.get(row);
+            if(c != null){
+                String opciones;
+
+                if("tel".equals(cual)){
+                    ops = c.getTelefonos();
+                    lista = new String[ops.size()];
+                    for(Map<String, String> tel : ops){
+                        opciones = " ("+tel.get("tipo")+") "+tel.get("numero");
+                        lista[ind] = opciones;
+                        ind++;
+                    }
+                } else {
+                    ops = c.getDirecciones();
+                    lista = new String[ops.size()];
+                    for(Map<String, String> dir : ops){
+                        opciones = " ("+dir.get("ciudad")+") "+dir.get("direccion")+", "+dir.get("barrio");
+                        lista[ind] = opciones;
+                        ind++;
+                    }
+                }
+            }
+        return lista;
+    }
     
     private void establecerTabla(String estamento){
+        tablaActual = estamento;
         ArrayList<Contacto> contactos = directorio.getContactos(estamento);
         int n = 0;
         for(Contacto c : contactos){
             if(c != null){
                 String nombres = c.getNombres();
                 String apellidos = c.getApellidos();
-                String numeros;
+                String[] parts;
+                String nombre;
 
-                comboBox = new JComboBox(){
-                    @Override
-                    public Object getSelectedItem()
-                    {
-                        Object selected = super.getSelectedItem();
+                parts = nombres.split(" ");
+                nombres = parts[1];
+                System.out.println("Nombre: "+nombres);
 
-                        if (selected == null)
-                            selected = "(Presiona Aqui)";
-
-                        return selected;
-                    }};
-                
-                ArrayList<Map<String, String>> tels = c.getTelefonos();
-                for(Map<String, String> tel : tels){
-                    numeros = "("+tel.get("tipo")+") "+tel.get("numero");
-                    comboBox.addItem(numeros);
+                if(!apellidos.equals("")){
+                    parts = apellidos.split(" ");
+                    apellidos = parts[0];
                 }
 
-                Object[] contacto = {(int) n, (String) nombres, (String) apellidos, null};
+                nombre = nombres +" "+apellidos;
 
+                Object[] contacto = {(int) n, (String) nombre, null, null};
                 modeloTabla.addRow(contacto);
-                tDirectorio.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
+
                 n++;
             }
         }

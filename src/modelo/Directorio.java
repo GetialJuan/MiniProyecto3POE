@@ -36,12 +36,6 @@ public class Directorio {
                 concat("\\src\\directoriotelefonico\\backup.dat"));
         
         establecerDirectorioPersistente();
-        /*
-        try {
-            fwDirectorio = new FileWriter(flDirectorio,true);
-        } catch (IOException ex) {
-            Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
     
     public void agregarContacto(String fechaDeNacimiento, String iD, 
@@ -107,9 +101,7 @@ public class Directorio {
                     +c.getFechaDeNacimiento()+","+c.getEstamento()+","+strTels+","
                     +strDirs);
                 }
-                
             }
-            
             fw.close();
             pw.close();
             
@@ -117,8 +109,6 @@ public class Directorio {
             Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
     
     public String getDirectorioVisual(String estamento){
         String dir = "";
@@ -188,7 +178,7 @@ public class Directorio {
             oos.close();
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
+        } catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }
@@ -207,7 +197,7 @@ public class Directorio {
             oos.close();
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
+        } catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }
@@ -224,7 +214,7 @@ public class Directorio {
             oos.close();
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
+        } catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }
@@ -245,9 +235,7 @@ public class Directorio {
             
         } catch (FileNotFoundException | ClassNotFoundException ex) {
             Logger.getLogger(VentanaDirectorio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex){
-            
-        }
+        } catch (IOException ex){}
     }
     
     public void borrarInformacion(){
@@ -257,7 +245,7 @@ public class Directorio {
 
         } catch (FileNotFoundException ex) {
             System.out.println("no se encontro el archivo");
-        }catch (IOException ex){
+        } catch (IOException ex){
             System.out.println("no se encontro el archivo");
         }
     }
@@ -268,20 +256,5 @@ public class Directorio {
 
     public void setNRows(int rows){
         this.nRows = rows;
-    }
-    
-    /*
-    private void resetearFileWriter(){
-        try {
-            if(fwDirectorio != null){
-                fwDirectorio.close();
-            }
-            fwDirectorio = new FileWriter(flDirectorio,true);
-            System.out.println("se reseto el fw");
-        } catch (IOException ex) {
-            Logger.getLogger(Directorio.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
-    }*/
-    
+    }    
 }

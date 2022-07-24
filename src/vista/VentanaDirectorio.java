@@ -1,4 +1,3 @@
-
 package vista;
 
 import java.awt.Container;
@@ -19,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.Timer;
 import modelo.Directorio;
 import java.util.List;
@@ -42,7 +40,7 @@ import modelo.Contacto;
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaDirectorio.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 21-07-2022 
+ * Fecha creación: 16-07-2022, Fecha última modificación: 23-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
@@ -59,7 +57,6 @@ public class VentanaDirectorio extends JFrame{
     private final List<JButton> botones = new ArrayList<>();
     
     //jtextpane(directorio visual)
-    private JTextPane tpDirectorio;
     private JScrollPane spDirectorio;
     
     private JTable tDirectorio;
@@ -71,9 +68,7 @@ public class VentanaDirectorio extends JFrame{
     private int x, y;
     private Timer reOpen;   
     private JLabel lblAyuda, lblAbajo;
-    private String tablaActual = "todos";
-
-    private JComboBox comboBoxDir, comboBoxTel;
+    private String tablaActual;
     
     public VentanaDirectorio(){
         imagenFondo imagenFondo = new imagenFondo();
@@ -110,6 +105,8 @@ public class VentanaDirectorio extends JFrame{
         btnAgregarContacto = new JButton();
         btnConfiguracion = new JButton();
         btnEditarContacto = new JButton("");
+
+        tablaActual = "todos";
         
         botones.add(btnProfesores); botones.add(btnEstudiantes); botones.add(btnEmpleados); botones.add(btnTodos);
         botones.add(btnAyuda); botones.add(btnMinimizar); botones.add(btnCerrar); botones.add(btnAgregarContacto);
@@ -203,7 +200,7 @@ public class VentanaDirectorio extends JFrame{
         mostrarCB();
 
         spDirectorio = new JScrollPane(tDirectorio);
-        spDirectorio.setBounds(14, 125, 492, 380);
+        spDirectorio.setBounds(14, 125, 493, 380);
         spDirectorio.setBorder(BorderFactory.createEmptyBorder());
 
         contPrincipal = getContentPane();
@@ -455,8 +452,7 @@ public class VentanaDirectorio extends JFrame{
                 String nombre;
 
                 parts = nombres.split(" ");
-                nombres = parts[1];
-                System.out.println("Nombre: "+nombres);
+                nombres = parts[0];
 
                 if(!apellidos.equals("")){
                     parts = apellidos.split(" ");

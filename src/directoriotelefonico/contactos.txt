@@ -1,2 +1,4 @@
 iD,nombres,apellidos,fechaDeNacimiento,estamento,telefonos,direcciones
-,Brayan,Sanchez,//,empleado,,{barrio=Obrero, ciudad=Cali, direccion=Calle 23}{barrio=Union, ciudad=Cali, direccion=Carrera 42}
+1193078874,Brayan,Sanchez,23/05/2003,empleado,{tipo=movil, numero=3137108005},{barrio=La union, ciudad=Cali, direccion=Carrera 42 A1}
+45826254,Luis,Romo,01/01/1965,profesor,{tipo=oficina, numero=300000000},{barrio=Melendez, ciudad=Cali, direccion=Carrera 100}
+101010101,Juan Sebastian,Getial Getial,2/02/2003,estudiante,{tipo=movil, numero=3022222222},{barrio=Ciudad 2000, ciudad=Cali, direccion=Carrera Unica}

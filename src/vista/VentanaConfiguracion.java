@@ -21,7 +21,7 @@ import modelo.Directorio;
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaConfiguracion.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 17-07-2022, Fecha última modificación: 18-07-2022 
+ * Fecha creación: 17-07-2022, Fecha última modificación: 23-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
@@ -32,7 +32,7 @@ public class VentanaConfiguracion extends JFrame{
     private JLabel lblAbajo;
     public boolean closed;
     private Container contPrincipal;
-    private List<JButton> botones = new ArrayList<>();
+    private final List<JButton> botones = new ArrayList<>();
     
     public VentanaConfiguracion(Directorio directorio){
         imagenFondo imagenFondo = new imagenFondo();

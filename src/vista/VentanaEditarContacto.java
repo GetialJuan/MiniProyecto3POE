@@ -32,7 +32,7 @@ import modelo.Contacto;
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaEditarContacto.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 20-07-2022, Fecha última modificación: 21-07-2022 
+ * Fecha creación: 20-07-2022, Fecha última modificación: 23-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
@@ -41,52 +41,29 @@ public class VentanaEditarContacto extends JFrame {
     private final Contacto contactoAEditar;
     
     //objetosAuxiliares
-    private ArrayList<Map<String,String>> listAuxDir;
-    private ArrayList<Map<String,String>> listAuxTel;
+    private ArrayList<Map<String,String>> listAuxDir, listAuxTel;
     private final List <JTextField> cajas;
     private final List <String> mensajes;
+   private final List<JButton> botones = new ArrayList<>();
     
     //Jtextfields
-    private JTextField txtNombres;
-    private JTextField txtApellidos;
-    
-    private ArrayList<JTextField> listTxtDireccion;
-    private final List<JButton> botones = new ArrayList<>();
-    
-    private ArrayList<JTextField> listTxtNumero;
-    private JTextField txtNumero;
-    
-    private ArrayList<JTextField> listTxtFechaDeNacimiento;
-    
-    private JTextField txtID, dia, mes, año, barrio, ciudad, direccion;
-    
+    private JTextField txtNombres, txtApellidos, txtNumero, txtID, dia, mes, año, barrio, ciudad, direccion;
+    private ArrayList<JTextField> listTxtDireccion, listTxtFechaDeNacimiento;
+
     //JcomboBox
-    private JComboBox<String> cbTipoNumero;
-    
-    //JCOmboBox(estamento)
-    private JComboBox cbEstamento, numeros, direcciones;
+    private JComboBox<String> cbTipoNumero, cbEstamento, numeros, direcciones;
     
     //JLabels
-    private JLabel lblNombres;
-    private JLabel lblApellidos;
-    private JLabel lblDirecciones;
-    private JLabel lblTelefonos;
-    private JLabel lblID;
     private JLabel lblAyuda;
 
     //jButons
-    private JButton btnAgregarDireccion;
-    private JButton btnAgregarTelefono;
-    private JButton btnAgregarContacto;
-    private JButton btnCerrar, btnAyuda, btnEditN, btnEditD, btnCanN, btnCanD;
+    private JButton btnCerrar, btnAyuda, btnEditN, btnEditD, btnCanN, btnCanD, btnAgregarContacto, btnAgregarTelefono,
+                    btnAgregarDireccion, btnEliminarTelefono, btnEliminarDireccion, btnEliminarContacto;
     
-    private JButton btnEliminarTelefono;
-    private JButton btnEliminarDireccion;
-    private JButton btnEliminarContacto;
 
-    private boolean agregado, retorno, edicion;
+    // Variables auxiliares
+    private boolean agregado, retorno, edicionN, edicionD;
     private int x,y;
-    private String tels;
     private boolean dir, tel;
     
     //contenedorPrincipal
@@ -114,7 +91,8 @@ public class VentanaEditarContacto extends JFrame {
     private void iniciarComponentes(){
         agregado = false;
         retorno = false;
-        edicion = false;
+        edicionN = false;
+        edicionD = false;
         dir = true;
         tel = true;
 
@@ -139,7 +117,7 @@ public class VentanaEditarContacto extends JFrame {
         txtID.setBounds(415, 105, 150, 25);
         
         //estamento (JComboBOx)
-        String[] estamentos = {"estamento","empleado","estudiante","profesor"};
+        String[] estamentos = {"empleado","estudiante","profesor"};
         cbEstamento = new JComboBox<>(estamentos);
         cbEstamento.setBounds(415, 270, 150, 25);
         
@@ -379,7 +357,6 @@ public class VentanaEditarContacto extends JFrame {
 
         contPrincipal.addMouseListener(new EventosJFrame());
         contPrincipal.addMouseMotionListener(new EventosJFrame());
-        
     }
 
     public boolean fueAgregado(){
@@ -467,10 +444,6 @@ public class VentanaEditarContacto extends JFrame {
         return true;
     }
     
-    private void reformarCBN(){
-        
-    }
-
     private class ManejadorDeEventos extends MouseAdapter{
 
         @Override
@@ -524,7 +497,8 @@ public class VentanaEditarContacto extends JFrame {
                         }
                         if(indexAux < 3 && indexAux > 0 && barrio.isEditable()){
                             throw new RuntimeException("Complete la direccion");
-                        } else {
+                        } else if (barrio.isEditable() && ciudad.isEditable()){
+                            if(edicionD) contactoAEditar.eliminarDireccion(direcciones.getSelectedIndex());
                             contactoAEditar.agregarDireccion(direccion.getText(), barrio.getText(), ciudad.getText());
                         }
                     }
@@ -539,6 +513,7 @@ public class VentanaEditarContacto extends JFrame {
                         if(!txtNumero.getText().equals("") && !validNumber(txtNumero.getText())){
                           throw new RuntimeException("Ingrese un numero válido");
                         } else if(!txtNumero.getText().equals("") && validNumber(txtNumero.getText())){
+                            if(edicionN) contactoAEditar.eliminarTelefono(numeros.getSelectedIndex());
                             contactoAEditar.agregarTelefono(txtNumero.getText(), (String) cbTipoNumero.getSelectedItem());
                         }
                     }
@@ -600,10 +575,14 @@ public class VentanaEditarContacto extends JFrame {
             else if(e.getSource() == btnAgregarDireccion){
                 ArrayList<Map<String,String>> dirs = contactoAEditar.getDirecciones();
                 if(!dirs.isEmpty()){
-                    for(Map<String,String> map : dirs){
-                        if(map.get("direccion").equals(direccion.getText()) && map.get("ciudad").equals(ciudad.getText())){
-                            throw new RuntimeException("Esta dirección ya existe");
-                        } 
+                    try{
+                        for(Map<String,String> map : dirs){
+                            if(map.get("direccion").equals(direccion.getText()) && map.get("ciudad").equals(ciudad.getText())){
+                                throw new RuntimeException("Esta dirección ya existe");
+                            } 
+                        }
+                    } catch (RuntimeException D){
+                        JOptionPane.showMessageDialog(rootPane, D.getMessage(), "Informacion", HEIGHT);
                     }
                 }
                 try{
@@ -624,7 +603,7 @@ public class VentanaEditarContacto extends JFrame {
 
                     listAuxDir.add(dirAux);
                     
-                    if(edicion){
+                    if(edicionD){
                         contactoAEditar.eliminarDireccion(direcciones.getSelectedIndex());
                         JOptionPane.showMessageDialog(rootPane, "Se editó esa dirección", "Información", HEIGHT);
                     } else {
@@ -632,7 +611,7 @@ public class VentanaEditarContacto extends JFrame {
                     }
                     contactoAEditar.agregarDireccion(direccion.getText(), barrio.getText(), ciudad.getText());
                     dir = true;
-                    edicion = false;
+                    edicionD = false;
                     crearCajas(direccion, "direccion");
                     
                     if(!dirs.isEmpty()){
@@ -667,13 +646,17 @@ public class VentanaEditarContacto extends JFrame {
             }
             else if(e.getSource() == btnAgregarTelefono){
                 ArrayList<Map<String,String>> tels = contactoAEditar.getTelefonos();
-                if(!tels.isEmpty()){
-                    for(Map<String,String> map : tels){
-                        if(map.get("numero").equals(txtNumero.getText()) && cbTipoNumero.getSelectedItem().equals(map.get("tipo"))){
-                            throw new RuntimeException("Este numero ya existe");
-                        } 
+                try{
+                    if(!tels.isEmpty()){
+                        for(Map<String,String> map : tels){
+                            if(map.get("numero").equals(txtNumero.getText()) && cbTipoNumero.getSelectedItem().equals(map.get("tipo"))){
+                                throw new RuntimeException("Este numero ya existe");
+                            } 
+                        }
                     }
-                }
+                } catch (RuntimeException D){
+                        JOptionPane.showMessageDialog(rootPane, D.getMessage(), "Informacion", HEIGHT);
+                    }
                 try{
                     if(txtNumero.getText().equals("") || !validNumber(txtNumero.getText())){
                           throw new RuntimeException("Ingrese un numero válido");
@@ -685,7 +668,7 @@ public class VentanaEditarContacto extends JFrame {
                     telAux.put("tipo", cbTipoNumero.getSelectedItem()+"");
 
                     listAuxTel.add(telAux);
-                    if(edicion){
+                    if(edicionN){
                         contactoAEditar.eliminarTelefono(numeros.getSelectedIndex());
                         JOptionPane.showMessageDialog(rootPane, "Se editó ese número", "Información", HEIGHT);
                     } else {
@@ -693,7 +676,7 @@ public class VentanaEditarContacto extends JFrame {
                     }
                     contactoAEditar.agregarTelefono(txtNumero.getText(), (String) cbTipoNumero.getSelectedItem());
                     tel = true;
-                    edicion = false;
+                    edicionN = false;
                     crearCajas(txtNumero, "numero");
                     
                     if(!tels.isEmpty()){
@@ -820,7 +803,7 @@ public class VentanaEditarContacto extends JFrame {
                 txtNumero.setText("");
                 btnCanN.setVisible(false);
                 numeros.setSelectedIndex(0);
-                edicion = false;
+                edicionN = false;
                 SwingUtilities.updateComponentTreeUI(contPrincipal);
             }
             else if(e.getSource() == btnEditN){
@@ -830,7 +813,7 @@ public class VentanaEditarContacto extends JFrame {
                 numeros.setVisible(false);
                 txtNumero.setVisible(true);
                 btnCanN.setVisible(true);
-                edicion = true;
+                edicionN = true;
                 txtNumero.setText((String) numeros.getSelectedItem());
                 SwingUtilities.updateComponentTreeUI(contPrincipal);
             }
@@ -847,7 +830,7 @@ public class VentanaEditarContacto extends JFrame {
                 direccion.setText("");
                 btnCanD.setVisible(false);
                 direcciones.setSelectedIndex(0);
-                edicion = false;
+                edicionD = false;
                 SwingUtilities.updateComponentTreeUI(contPrincipal);
             }
             else if(e.getSource() == btnEditD){
@@ -858,7 +841,7 @@ public class VentanaEditarContacto extends JFrame {
                 direcciones.setVisible(false);
                 direccion.setVisible(true);
                 btnCanD.setVisible(true);
-                edicion = true;
+                edicionD = true;
                 direccion.setText((String) direcciones.getSelectedItem());
                 ArrayList<Map<String,String>> temporalDir = contactoAEditar.getDirecciones();
                 for(Map<String,String> dirsArray : temporalDir){
@@ -873,7 +856,7 @@ public class VentanaEditarContacto extends JFrame {
         
     }
 
-        class imagenFondo extends JPanel{
+    class imagenFondo extends JPanel{
         private Image fondo;
         @Override
         public void paint(Graphics g) {
@@ -883,4 +866,4 @@ public class VentanaEditarContacto extends JFrame {
             super.paint(g);
         }
     }
-} //NO SE PUEDE OBTENER EL CONTACTO 0
+} 

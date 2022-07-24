@@ -1,5 +1,6 @@
 package vista;
 
+import static java.awt.image.ImageObserver.HEIGHT;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,7 +22,6 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import static java.awt.image.ImageObserver.HEIGHT;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -30,55 +30,35 @@ import javax.swing.JPanel;
  * Laboratorio N.3: tercer miniproyecto. Archivo: VentanaAgregarContacto.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 21-07-2022 
+ * Fecha creación: 16-07-2022, Fecha última modificación: 23-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
 public class VentanaAgregarContacto extends JFrame{
     private final Directorio directorio;
     
+    // Variables auxiliares
+    private boolean agregado, retorno, dir, tel;
+    private int x,y;
+
     //objetosAuxiliares
-    private ArrayList<Map<String,String>> listAuxDir;
-    private ArrayList<Map<String,String>> listAuxTel;
+    private ArrayList<Map<String,String>> listAuxDir, listAuxTel;
     private final List <JTextField> cajas;
     private final List <String> mensajes;
     
     //Jtextfields
-    private JTextField txtNombres;
-    private JTextField txtApellidos;
-    
-    private ArrayList<JTextField> listTxtDireccion;
-    
-    private ArrayList<JTextField> listTxtNumero;
-    private JTextField txtNumero;
-    
-    private ArrayList<JTextField> listTxtFechaDeNacimiento;
-    
-    private JTextField txtID, direccion, barrio, ciudad, dia, mes, año;
+    private JTextField txtNombres, txtApellidos, txtNumero, txtID, direccion, barrio, ciudad, dia, mes, año;
+    private ArrayList<JTextField> listTxtDireccion, listTxtFechaDeNacimiento;
     
     //JcomboBox
-    private JComboBox<String> cbTipoNumero, direcciones, numeros;
-    
-    //JCOmboBox(estamento)
-    private JComboBox<String> cbEstamento;
+    private JComboBox<String> cbTipoNumero, cbEstamento;
     
     //JLabels
-    private JLabel lblNombres;
-    private JLabel lblApellidos;
-    private JLabel lblDirecciones;
-    private JLabel lblTelefonos;
-    private JLabel lblID;
     private JLabel lblAyuda;
 
     //jButons
-    private JButton btnAgregarDireccion;
-    private JButton btnAgregarTelefono;
-    private JButton btnAgregarContacto;
-    private JButton btnCerrar, btnAyuda;
+    private JButton btnAgregarDireccion, btnAgregarTelefono, btnAgregarContacto, btnCerrar, btnAyuda;
 
-    private boolean agregado, retorno, dir, tel;
-    private int x,y;
-    
     //contenedorPrincipal
     private Container contPrincipal;
     
@@ -261,7 +241,7 @@ public class VentanaAgregarContacto extends JFrame{
         //contPrincipal
         contPrincipal = getContentPane();
         contPrincipal.setLayout(null);
-                contPrincipal.add(lblAyuda);
+        contPrincipal.add(lblAyuda);
         contPrincipal.add(txtNombres);
         contPrincipal.add(txtApellidos);
         contPrincipal.add(txtID);
@@ -340,7 +320,6 @@ public class VentanaAgregarContacto extends JFrame{
     }
 
     private class ManejadorDeEventos extends MouseAdapter{
-
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getSource() == btnAgregarContacto){
@@ -528,7 +507,7 @@ public class VentanaAgregarContacto extends JFrame{
         
     }
 
-        class imagenFondo extends JPanel{
+    class imagenFondo extends JPanel{
         private Image fondo;
         @Override
         public void paint(Graphics g) {

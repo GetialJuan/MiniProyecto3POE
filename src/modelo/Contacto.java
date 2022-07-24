@@ -9,7 +9,7 @@ import java.util.Map;
  * Laboratorio N.3: tercer miniproyecto. Archivo: Contacto.java, Autores (Grupo 01 POE): 
  * Brayan Andrés Sánchez Lozano <brayan.andres.sanchez@correounivalle.edu.co>
  * Juan Sebastian Getial Getial <getial.juan@correounivalle.edu.co>
- * Fecha creación: 16-07-2022, Fecha última modificación: 17-07-2022 
+ * Fecha creación: 16-07-2022, Fecha última modificación: 23-07-2022 
  * Docente: Luis Romo <luis.romo@correounivalle.edu.co>
  */
 
